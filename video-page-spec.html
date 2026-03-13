@@ -1,0 +1,2384 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TVBS 新聞網改版 M3 規格說明會</title>
+<style>
+
+
+  :root {
+    --red: #E8002A;
+    --red-dim: #9B001C;
+    --bg: #0A0C10;
+    --bg2: #111318;
+    --bg3: #181C24;
+    --border: #252A35;
+    --text: #F0F2F8;
+    --text-dim: #9BA5B4;
+    --text-mid: #C4CAD4;
+    --green: #22C55E;
+    --amber: #F59E0B;
+    --blue: #3B82F6;
+    --purple: #A855F7;
+    --cyan: #06B6D4;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Microsoft JhengHei', 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    letter-spacing: 0.02em;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,12,16,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 24px;
+    overflow-x: auto;
+  }
+  nav a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 12px;
+    white-space: nowrap;
+    padding: 4px 10px;
+    border-radius: 4px;
+    transition: all .2s;
+  }
+  nav a:hover, nav a.active { color: var(--text); background: var(--border); }
+  .nav-logo {
+    color: var(--red);
+    font-weight: 900;
+    font-size: 13px;
+    margin-right: 12px;
+    white-space: nowrap;
+  }
+  nav .sep { color: var(--border); margin: 0 4px; }
+
+  /* SECTIONS */
+  section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 56px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* HERO */
+  .hero {
+    padding: 64px 24px 48px;
+    text-align: center;
+    background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(232,0,42,0.15) 0%, transparent 70%);
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    color: var(--red);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 900;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+  }
+  .hero-sub { color: var(--text-mid); font-size: 15px; }
+  .hero-meta {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .hero-meta span {
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .hero-meta b { color: var(--text-mid); }
+
+  /* SECTION HEADER */
+  .sec-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .sec-num {
+    font-size: 11px;
+    color: var(--red);
+    letter-spacing: 1px;
+    flex-shrink: 0;
+  }
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    flex-shrink: 0;
+  }
+  h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  /* LAYOUT WIREFRAME */
+  .wireframe-wrap {
+    display: grid;
+    gap: 24px;
+  }
+  .wireframe-label {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .wireframe {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    position: relative;
+  }
+  .wf-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .wf-block {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px 12px;
+    font-size: 11px;
+    color: var(--text-mid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+  }
+  .wf-block.full { flex: 1; }
+  .wf-block.w2 { flex: 2; }
+  .wf-block.w3 { flex: 3; }
+  .wf-block.w4 { flex: 4; }
+  .wf-block.red { border-color: var(--red); color: var(--red); }
+  .wf-block.green { border-color: var(--green); color: var(--green); }
+  .wf-block.blue { border-color: var(--blue); color: var(--blue); }
+  .wf-block.amber { border-color: var(--amber); color: var(--amber); }
+  .wf-block.purple { border-color: var(--purple); color: var(--purple); }
+  .wf-block.cyan { border-color: var(--cyan); color: var(--cyan); }
+  .wf-block.ext { border-style: dashed; border-color: var(--text-dim); color: var(--text-dim); }
+  .wf-block .tag {
+    position: absolute;
+    top: -8px;
+    right: 6px;
+    font-size: 9px;
+    padding: 1px 5px;
+    border-radius: 3px;
+    background: var(--bg);
+  }
+  .wf-ht { min-height: 40px; }
+  .wf-ht-lg { min-height: 70px; }
+  .wf-ht-xl { min-height: 120px; }
+
+  /* COMPARE GRID */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 720px) { .compare-grid { grid-template-columns: 1fr; } }
+  .compare-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .compare-card h4 {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+
+  /* CODE BLOCK */
+  .code {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+  .code .cmt { color: var(--text-dim); }
+  .code .key { color: var(--cyan); }
+  .code .val { color: var(--amber); }
+  .code .num { color: var(--purple); }
+  .code .arrow { color: var(--red); }
+
+  /* LOOP VISUAL */
+  .loop-visual {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin-top: 16px;
+  }
+  .loop-row {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .loop-label {
+    font-size: 11px;
+    color: var(--text-dim);
+    width: 120px;
+    flex-shrink: 0;
+  }
+  .pill {
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text-mid);
+  }
+  .pill.active {
+    background: rgba(232,0,42,0.2);
+    border-color: var(--red);
+    color: var(--red);
+    font-weight: 700;
+  }
+  .pill.wrap {
+    background: rgba(59,130,246,0.15);
+    border-color: var(--blue);
+    color: var(--blue);
+  }
+  .pill.dots { background: transparent; border: none; color: var(--text-dim); }
+
+  /* TABLE */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  th {
+    text-align: left;
+    padding: 10px 14px;
+    background: var(--bg3);
+    color: var(--text-dim);
+    font-size: 12px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  .tbl-wrap {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+  }
+  .badge-red { background: rgba(232,0,42,0.15); color: var(--red); }
+  .badge-green { background: rgba(34,197,94,0.15); color: var(--green); }
+  .badge-blue { background: rgba(59,130,246,0.15); color: var(--blue); }
+  .badge-amber { background: rgba(245,158,11,0.15); color: var(--amber); }
+  .badge-purple { background: rgba(168,85,247,0.15); color: var(--purple); }
+  .badge-dim { background: var(--bg3); color: var(--text-dim); }
+
+  /* FLOW DIAGRAM */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 12px 0;
+  }
+  .flow-node {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 12px;
+    text-align: center;
+  }
+  .flow-node.page {
+    border-color: var(--blue);
+    color: var(--blue);
+  }
+  .flow-node.action { border-color: var(--amber); color: var(--amber); }
+  .flow-arrow { color: var(--text-dim); font-size: 16px; }
+
+  /* CARD GRID */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    letter-spacing: 0.01em;
+  }
+
+  /* STATE MACHINE */
+  .state-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .state-cell {
+    background: var(--bg2);
+    padding: 14px;
+    font-size: 13px;
+  }
+  .state-cell h5 {
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+
+  /* DEDUP FLOW */
+  .dedup-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .dedup-step {
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 0;
+    position: relative;
+  }
+  .dedup-step:first-child { border-radius: 8px 8px 0 0; }
+  .dedup-step:last-child { border-radius: 0 0 8px 8px; }
+  .dedup-step + .dedup-step { border-top: none; }
+  .dedup-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .dedup-content { flex: 1; }
+  .dedup-content h4 { font-size: 13px; margin-bottom: 4px; }
+  .dedup-content p { font-size: 12px; color: var(--text-mid); }
+
+  /* SEC META — 純文字行，不用框，與wireframe完全區隔 */
+  .sec-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 0;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .sec-meta-item {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+    padding: 0 20px 0 0;
+  }
+  .sec-meta-item + .sec-meta-item {
+    padding-left: 20px;
+    border-left: 1px solid var(--border);
+  }
+  .sec-meta-item .meta-key {
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .sec-meta-item .meta-val {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-mid);
+    letter-spacing: -0.2px;
+  }
+  .sec-meta-item code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--cyan);
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+
+  /* UI FLOW BLOCK — 章節結尾的互動流向區塊 */
+  .ui-flow {
+    margin-top: 24px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+  }
+  .ui-flow-label {
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .ui-flow-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .ui-flow-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    font-size: 12px;
+    flex-wrap: wrap;
+  }
+  .uif-trigger {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 5px 10px;
+    color: var(--text-mid);
+    white-space: nowrap;
+    font-size: 11px;
+  }
+  .uif-trigger b {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .uif-arrow {
+    color: var(--text-dim);
+    font-size: 11px;
+    padding: 0 8px;
+    flex-shrink: 0;
+  }
+  .uif-dest {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .uif-dest.internal {
+    background: rgba(34,197,94,0.1);
+    color: var(--green);
+    border: 1px solid rgba(34,197,94,0.25);
+  }
+  .uif-dest.external {
+    background: rgba(107,114,128,0.1);
+    color: var(--text-dim);
+    border: 1px solid rgba(107,114,128,0.2);
+  }
+  .uif-note {
+    font-size: 10px;
+    color: var(--text-dim);
+    padding-left: 8px;
+    font-style: italic;
+  }
+
+
+  .faq-list { display: flex; flex-direction: column; gap: 0; }
+  .faq-item {
+    border: 1px solid var(--border);
+    border-radius: 0;
+    background: var(--bg2);
+    overflow: hidden;
+  }
+  .faq-item:first-child { border-radius: 8px 8px 0 0; }
+  .faq-item:last-child { border-radius: 0 0 8px 8px; }
+  .faq-item + .faq-item { border-top: none; }
+  .faq-q {
+    padding: 14px 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    user-select: none;
+    transition: background .15s;
+  }
+  .faq-q:hover { background: var(--bg3); }
+  .faq-q-icon {
+    font-size: 11px;
+    color: var(--text-dim);
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: transform .2s;
+  }
+  .faq-item.open .faq-q-icon { transform: rotate(90deg); }
+  .faq-q-tag {
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .faq-q-text {
+    font-size: 13px;
+    color: var(--text);
+    flex: 1;
+    line-height: 1.5;
+  }
+  .faq-a {
+    display: none;
+    padding: 12px 18px 16px 42px;
+    border-top: 1px solid var(--border);
+    background: rgba(255,255,255,0.015);
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.75;
+  }
+  .faq-item.open .faq-a { display: block; }
+  .faq-a strong { color: var(--text); }
+  .faq-a code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--cyan);
+    background: rgba(6,182,212,0.08);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  .faq-a ul { margin: 6px 0 0 16px; }
+  .faq-a li { margin-bottom: 3px; }
+  .faq-group-label {
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+    margin: 24px 0 8px;
+  }
+  .faq-group-label:first-of-type { margin-top: 0; }
+
+  /* CALLOUT */
+  .callout {
+    border-left: 3px solid var(--amber);
+    background: rgba(245,158,11,0.06);
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    margin: 12px 0;
+    font-size: 13px;
+  }
+  .callout.red { border-color: var(--red); background: rgba(232,0,42,0.06); }
+  .callout.green { border-color: var(--green); background: rgba(34,197,94,0.06); }
+  .callout b { color: var(--amber); }
+  .callout.red b { color: var(--red); }
+  .callout.green b { color: var(--green); }
+
+  p { margin-bottom: 8px; color: var(--text-mid); font-size: 14px; }
+  ul { padding-left: 18px; color: var(--text-mid); font-size: 14px; }
+  li { margin-bottom: 4px; }
+  .mt16 { margin-top: 16px; }
+  .mt24 { margin-top: 24px; }
+  .mb8 { margin-bottom: 8px; }
+  strong { color: var(--text); }
+
+  /* PLAYER LAYOUT DEMO */
+  .player-demo {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .player-demo-top {
+    background: #000;
+    aspect-ratio: 16/6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dim);
+    font-size: 12px;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .player-demo-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .plist-item {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .plist-item:last-child { border-bottom: none; }
+  .plist-item.now {
+    background: rgba(232,0,42,0.08);
+    border-left: 3px solid var(--red);
+  }
+  .plist-thumb {
+    width: 80px;
+    height: 45px;
+    background: var(--bg3);
+    border-radius: 3px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--text-dim);
+  }
+  .plist-info { flex: 1; }
+  .plist-info strong { font-size: 12px; display: block; }
+  .plist-info span { font-size: 10px; color: var(--text-dim); }
+
+  /* VIDEO HUB LAYOUT */
+  .hub-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 8px;
+  }
+  .hub-hero {
+    aspect-ratio: 16/5;
+    background: #000;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: var(--red);
+    grid-column: 1 / -1;
+  }
+  .hub-featured {
+    aspect-ratio: 16/9;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .hub-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .hub-list-item {
+    flex: 1;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--text-dim);
+    padding: 8px;
+    min-height: 48px;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">TVBS M3</span>
+  <span class="sep">|</span>
+  <a href="javascript:void(0)" data-target="overview">00 總覽</a>
+  <a href="javascript:void(0)" data-target="homepage">01 首頁</a>
+  <a href="javascript:void(0)" data-target="dedup">02 排重邏輯</a>
+  <a href="javascript:void(0)" data-target="video-datasource">03 影音資料來源</a>
+  <a href="javascript:void(0)" data-target="video-hub">04 影音總覽頁</a>
+  <a href="javascript:void(0)" data-target="playlist-page">05 清單頁</a>
+  <a href="javascript:void(0)" data-target="player">06 播放頁</a>
+  <a href="javascript:void(0)" data-target="autoplay">07 播放器狀態</a>
+  <a href="javascript:void(0)" data-target="autoplay">08 播放器狀態</a>
+  <a href="javascript:void(0)" data-target="fallback">09 錯誤處理</a>
+  <a href="javascript:void(0)" data-target="faq">10 容易混淆點</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Milestone 3 · 規格說明會</div>
+  <h1>TVBS 新聞網改版<br>開發規格說明</h1>
+  <p class="hero-sub">首頁 · 影音總覽頁 · 播放清單頁 · 單則影音播放頁</p>
+  <div class="hero-meta">
+    <span><b>版本</b> V5 (URL-Driven Playlist)</span>
+    <span><b>範圍</b> 首頁 + 影音系統</span>
+    <span><b>狀態</b> M3 開發中</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ OVERVIEW ══ -->
+<section id="overview" style="max-width:1100px;margin:0 auto;padding:56px 24px">
+  <div class="sec-header">
+    <span class="sec-num">00</span>
+    <h2>整體架構一覽</h2>
+  </div>
+
+  <div class="card-grid" style="margin-bottom:32px">
+    <div class="card">
+      <div class="card-title">頁面角色定義</div>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;">
+        <div><span class="badge badge-amber">首頁</span> <span style="color:var(--text-mid);margin-left:6px">Teaser — 誘餌，導流入口</span></div>
+        <div><span class="badge badge-blue">影音總覽頁 /video</span> <span style="color:var(--text-mid);margin-left:6px">Collection — 策展分類</span></div>
+        <div><span class="badge badge-purple">Playlist列表頁 /playlist/{id}</span> <span style="color:var(--text-mid);margin-left:6px">Navigation Node — 選片</span></div>
+        <div><span class="badge badge-red">播放頁 /video/{id}</span> <span style="color:var(--text-mid);margin-left:6px">Consumption — 留存終點</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">路由結構</div>
+      <div class="code" style="margin-top:0">
+        <span class="key">/</span>                <span class="cmt">← 首頁</span><br>
+        <span class="key">/video</span>      <span class="cmt">← 影音總覽 (Hub)</span><br>
+        <span class="key">/video/playlist/<span class="val">A</span></span>  <span class="cmt">← Playlist列表</span><br>
+        <span class="key">/video/<span class="val">{video_id}</span></span> <span class="cmt">← 單則播放頁</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 目錄 -->
+  <div class="card">
+    <div class="card-title">說明目錄</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 32px;font-size:14px;margin-top:4px">
+      <div style="display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--border)">
+        <span style="color:var(--text-dim);min-width:32px">01</span>
+        <span>首頁結構</span>
+      </div>
+      <div style="display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--border)">
+        <span style="color:var(--text-dim);min-width:32px">06</span>
+        <span>單則影音播放頁</span>
+      </div>
+      <div style="display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--border)">
+        <span style="color:var(--text-dim);min-width:32px">02</span>
+        <span>首頁內容排重邏輯</span>
+      </div>
+      <div style="display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--border)">
+        <span style="color:var(--text-dim);min-width:32px">03</span>
+        <span>影音資料來源</span>
+      </div>
+      <div style="display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--border)">
+        <span style="color:var(--text-dim);min-width:32px">08</span>
+        <span>播放器狀態機</span>
+      </div>
+      <div style="display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--border)">
+        <span style="color:var(--text-dim);min-width:32px">04</span>
+        <span>影音總覽頁（Hub）</span>
+      </div>
+      <div style="display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--border)">
+        <span style="color:var(--text-dim);min-width:32px">09</span>
+        <span>錯誤處理與降級機制</span>
+      </div>
+      <div style="display:flex;gap:10px;padding:6px 0">
+        <span style="color:var(--text-dim);min-width:32px">05</span>
+        <span>Playlist 專屬列表頁</span>
+      </div>
+      <div style="display:flex;gap:10px;padding:6px 0">
+        <span style="color:var(--text-dim);min-width:32px">10</span>
+        <span>重點提醒</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════ HOMEPAGE ══ -->
+<section id="homepage">
+  <div class="sec-header">
+    <span class="sec-num">01</span>
+    <h2>首頁結構</h2>
+  </div>
+
+  <div class="sec-meta">
+    <div class="sec-meta-item"><span class="meta-key">路由</span><span class="meta-val"><code>/</code></span></div>
+    <div class="sec-meta-item"><span class="meta-key">角色</span><span class="meta-val">Teaser — 誘餌，內容導流入口</span></div>
+  </div>
+
+  <div class="card-grid" style="margin-bottom:28px">
+    <div class="card" style="grid-column:1/-1">
+      <div class="card-title">首頁核心目標</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 32px;font-size:14px;margin-top:4px">
+        <div>📊 透過<strong>資訊密度</strong>與<strong>內容多樣性</strong>創造更多導流效果</div>
+        <div>🎯 多元切入點：輪播、議題、即時、影音並陳，<strong>擴大觸及不同閱讀習慣</strong></div>
+        <div>📺 影音與新聞整合呈現，<strong>降低使用者外流至 YouTube</strong></div>
+        <div>🚀 首頁作為 Teaser 入口，不做播放，<strong>把流量導進影音系統</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="compare-grid">
+    <!-- Desktop -->
+    <div>
+      <div class="wireframe-label">DESKTOP ≥ 1152px</div>
+      <div class="wireframe">
+        <div class="wf-row" style="margin-bottom:4px">
+          <div class="wf-block full" style="font-size:14px;padding:6px;">Header（全站共用）</div>
+        </div>
+        <div class="wf-row" style="margin-bottom:4px">
+          <div class="wf-block full red wf-ht" style="font-size:14px">快訊 Newsflash<span class="tag" style="color:var(--red)">最多21則：1則置頂+15則推播+至多5則好康</span></div>
+        </div>
+        <div class="wf-row" style="margin-bottom:4px">
+          <div class="wf-block ext full wf-ht" style="font-size:14px">廣告版位</div>
+        </div>
+        <!-- 輪播 + 看板 + Insider 同一行 -->
+        <div class="wf-row">
+          <!-- 新聞輪播 -->
+          <div class="wf-block w3 blue" style="flex-direction:column;gap:4px;min-height:180px">
+            <span>新聞輪播</span>
+            <span style="font-size:14px">15則 手動策展 CMS</span>
+            <span style="font-size:14px">16:9 大圖 + 自動輪播 5s</span>
+            <span style="font-size:14px;margin-top:auto">[ ‹ › ] 左右切換</span>
+          </div>
+          <!-- 新聞看板 2×2 + Insider -->
+          <div style="flex:2;display:flex;flex-direction:column;gap:4px">
+            <!-- 第一行：Slot1 + Slot2 -->
+            <div style="display:flex;gap:4px;flex:1">
+              <div class="wf-block full wf-ht" style="font-size:14px;flex-direction:column;gap:2px;position:relative">
+                <span style="position:absolute;top:4px;left:4px;background:var(--red);color:#fff;font-size:10px;padding:1px 5px;border-radius:3px">LIVE</span>
+                <span>Slot 1</span>
+                <span>CMS 圖片+連結</span>
+                <span style="color:var(--text-dim)">›</span>
+              </div>
+              <div class="wf-block full wf-ht" style="font-size:14px;flex-direction:column;gap:2px">
+                <span>Slot 2</span>
+                <span>CMS 圖片+連結</span>
+                <span style="color:var(--text-dim)">›</span>
+              </div>
+            </div>
+            <!-- 第二行：Slot3 + Slot4 -->
+            <div style="display:flex;gap:4px;flex:1">
+              <div class="wf-block full wf-ht" style="font-size:14px;flex-direction:column;gap:2px">
+                <span>Slot 3</span>
+                <span>CMS 圖片+連結</span>
+                <span style="color:var(--text-dim)">›</span>
+              </div>
+              <div class="wf-block full wf-ht" style="font-size:14px;flex-direction:column;gap:2px">
+                <span>Slot 4</span>
+                <span>CMS 圖片+連結</span>
+                <span style="color:var(--text-dim)">›</span>
+              </div>
+            </div>
+            <!-- Insider 在看板下方 -->
+            <div class="wf-block ext full" style="font-size:14px;padding:6px">Insider 電子報（Desktop only）</div>
+          </div>
+        </div>
+        <!-- 新聞議題 -->
+        <div class="wf-row mt16">
+          <div class="wf-block full amber wf-ht">新聞議題<span class="tag" style="color:var(--amber)">8~16則, 橫向滾動, 前2藍底白字</span><span style="font-size:14px;margin-left:6px">[ ‹ ›  橫向滾動 ]</span></div>
+        </div>
+        <!-- Taboola -->
+        <div class="wf-row mt16">
+          <div class="wf-block ext full wf-ht">TOP10 熱門（Taboola）</div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block ext full wf-ht">人氣點閱榜（Taboola）</div>
+        </div>
+        <!-- 即時新聞 -->
+        <div class="wf-row mt16">
+          <div class="wf-block full green wf-ht">即時新聞 8則<span class="tag" style="color:var(--green)">第3+8留廣告洞位</span>
+            <span style="font-size:14px;margin-left:6px">底部 [ 看更多即時新聞 › ] → 即時新聞總覽頁</span>
+          </div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block ext full wf-ht" style="font-size:14px">廣告版位</div>
+        </div>
+        <!-- 分類焦點（獨立，無Taboola） -->
+        <div class="wf-row mt16">
+          <div class="wf-block full purple" style="min-height:80px;flex-direction:column;gap:4px;font-size:14px">
+            <span>分類焦點 2×2 Grid</span>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;width:100%;margin-top:4px">
+              <div style="background:rgba(168,85,247,0.15);border-radius:3px;padding:4px;font-size:14px">生活焦點 › </div>
+              <div style="background:rgba(168,85,247,0.15);border-radius:3px;padding:4px;font-size:14px">政治焦點 › </div>
+              <div style="background:rgba(168,85,247,0.15);border-radius:3px;padding:4px;font-size:14px">娛樂焦點 › </div>
+              <div style="background:rgba(168,85,247,0.15);border-radius:3px;padding:4px;font-size:14px">體育焦點 › </div>
+            </div>
+          </div>
+        </div>
+        <!-- 精選議題包 -->
+        <div class="wf-row mt16">
+          <div class="wf-block full cyan wf-ht" style="flex-direction:column;gap:6px;font-size:14px">
+            <span>最新議題（釘選議題，不足則遞補）</span>
+            <div style="display:flex;gap:6px;width:100%;margin-top:2px">
+              <div style="flex:1;background:rgba(34,211,238,0.15);border-radius:4px;padding:8px 6px;font-size:14px;text-align:center;color:var(--cyan)">議題卡 1 ›</div>
+              <div style="flex:1;background:rgba(34,211,238,0.15);border-radius:4px;padding:8px 6px;font-size:14px;text-align:center;color:var(--cyan)">議題卡 2 ›</div>
+              <div style="flex:1;background:rgba(34,211,238,0.15);border-radius:4px;padding:8px 6px;font-size:14px;text-align:center;color:var(--cyan)">議題卡 3 ›</div>
+            </div>
+            <span style="font-size:14px;color:var(--cyan)">底部 [ 看更多議題 › ]</span>
+          </div>
+        </div>
+        <!-- 影音 1+3 -->
+        <div class="wf-row mt16">
+          <div class="wf-block full red wf-ht-lg" style="flex-direction:column;gap:4px;font-size:14px">
+            <span>影音區塊 — VOD 1+3 精選</span>
+            <div style="display:flex;gap:4px;width:100%;margin-top:4px">
+              <div style="flex:2;background:rgba(232,0,42,0.15);border-radius:3px;padding:8px;font-size:14px;min-height:48px">大圖 ▶<br>縮圖+標題</div>
+              <div style="flex:1;display:flex;flex-direction:column;gap:3px">
+                <div style="background:rgba(232,0,42,0.1);border-radius:3px;padding:4px;font-size:14px">小圖 ▶</div>
+                <div style="background:rgba(232,0,42,0.1);border-radius:3px;padding:4px;font-size:14px">小圖 ▶</div>
+                <div style="background:rgba(232,0,42,0.1);border-radius:3px;padding:4px;font-size:14px">小圖 ▶</div>
+              </div>
+            </div>
+            <span style="font-size:14px;margin-top:2px">[ 看更多影音新聞 › ]</span>
+          </div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block full" style="font-size:14px;padding:6px">Footer（全站共用）</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile -->
+    <div>
+      <div class="wireframe-label">MOBILE ≤ 820px</div>
+      <div class="wireframe">
+        <div class="wf-row" style="margin-bottom:4px">
+          <div class="wf-block full" style="font-size:14px;padding:6px;">Header</div>
+        </div>
+        <div class="wf-row" style="margin-bottom:4px">
+          <div class="wf-block full red wf-ht" style="font-size:14px">快訊 Newsflash</div>
+        </div>
+        <div class="wf-row" style="margin-bottom:4px">
+          <div class="wf-block ext full wf-ht" style="font-size:14px">廣告版位</div>
+        </div>
+        <!-- 輪播 -->
+        <div class="wf-row">
+          <div class="wf-block full blue" style="flex-direction:column;gap:4px;min-height:100px;font-size:14px">
+            <span>新聞輪播</span>
+            <span style="font-size:14px">16:9 大圖 + Swipe [ ‹ › ]</span>
+          </div>
+        </div>
+        <!-- 看板：Mobile 一行四格 -->
+        <div class="wf-row mt16">
+          <div class="wf-block wf-ht" style="flex:1;font-size:14px;flex-direction:column;gap:2px;position:relative">
+            <span style="position:absolute;top:3px;left:3px;background:var(--red);color:#fff;font-size:9px;padding:1px 4px;border-radius:3px">LIVE</span>
+            <span>Slot 1 ›</span>
+          </div>
+          <div class="wf-block wf-ht" style="flex:1;font-size:14px">Slot 2 ›</div>
+          <div class="wf-block wf-ht" style="flex:1;font-size:14px">Slot 3 ›</div>
+          <div class="wf-block wf-ht" style="flex:1;font-size:14px">Slot 4 ›</div>
+        </div>
+        <!-- 新聞議題 -->
+        <div class="wf-row mt16">
+          <div class="wf-block full amber wf-ht" style="font-size:14px">新聞議題 [ ‹ › 橫向滾動 ]</div>
+        </div>
+        <!-- Taboola TOP10 -->
+        <div class="wf-row mt16">
+          <div class="wf-block ext full wf-ht" style="font-size:14px">TOP10（Taboola）</div>
+        </div>
+        <!-- Taboola 人氣 -->
+        <div class="wf-row mt16">
+          <div class="wf-block ext full wf-ht" style="font-size:14px">人氣點閱榜（Taboola）</div>
+        </div>
+        <!-- 即時新聞 -->
+        <div class="wf-row mt16">
+          <div class="wf-block full green wf-ht" style="font-size:14px;flex-direction:column;gap:2px">
+            <span>即時新聞 8則<span class="tag" style="color:var(--green)">第3+8留廣告洞位</span></span>
+            <span style="font-size:14px">底部 [ 看更多即時新聞 › ] → 即時新聞總覽頁</span>
+          </div>
+        </div>
+        <!-- 分類焦點 -->
+        <div class="wf-row mt16">
+          <div class="wf-block full purple" style="min-height:80px;flex-direction:column;gap:4px;font-size:14px">
+            <span>分類焦點（垂直堆疊，每分類各 4 則）</span>
+            <div style="display:flex;flex-direction:column;gap:3px;margin-top:4px">
+              <div style="background:rgba(168,85,247,0.15);border-radius:3px;padding:5px 8px;font-size:14px;font-weight:600;color:var(--purple)">生活焦點 4則 ›</div>
+              <div style="background:rgba(168,85,247,0.15);border-radius:3px;padding:5px 8px;font-size:14px;font-weight:600;color:var(--purple)">政治焦點 4則 ›</div>
+              <div style="background:rgba(168,85,247,0.15);border-radius:3px;padding:5px 8px;font-size:14px;font-weight:600;color:var(--purple)">娛樂焦點 4則 ›</div>
+              <div style="background:rgba(168,85,247,0.15);border-radius:3px;padding:5px 8px;font-size:14px;font-weight:600;color:var(--purple)">體育焦點 4則 ›</div>
+            </div>
+          </div>
+        </div>
+        <!-- 精選議題包 -->
+        <div class="wf-row mt16">
+          <div class="wf-block full cyan wf-ht" style="font-size:14px;flex-direction:column;gap:6px">
+            <span>最新議題（釘選遞補，至多3則）</span>
+            <div style="display:flex;flex-direction:column;gap:4px;width:100%">
+              <div style="display:flex;gap:8px;align-items:center;background:rgba(34,211,238,0.08);border-radius:4px;padding:6px 8px">
+                <div style="width:60px;height:36px;background:var(--bg2);border-radius:3px;flex-shrink:0"></div>
+                <div style="flex:1;font-size:14px;color:var(--text)">議題標題 #1 ›</div>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center;background:rgba(34,211,238,0.08);border-radius:4px;padding:6px 8px">
+                <div style="width:60px;height:36px;background:var(--bg2);border-radius:3px;flex-shrink:0"></div>
+                <div style="flex:1;font-size:14px;color:var(--text)">議題標題 #2 ›</div>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center;background:rgba(34,211,238,0.08);border-radius:4px;padding:6px 8px">
+                <div style="width:60px;height:36px;background:var(--bg2);border-radius:3px;flex-shrink:0"></div>
+                <div style="flex:1;font-size:14px;color:var(--text)">議題標題 #3 ›</div>
+              </div>
+            </div>
+            <span style="font-size:14px;color:var(--cyan)">[ 看更多議題 › ] → 議題總覽頁</span>
+          </div>
+        </div>
+        <!-- 影音 VOD 1+3：大圖上方，三小圖垂直堆疊下方 -->
+        <div class="wf-row mt16">
+          <div class="wf-block full red wf-ht-lg" style="flex-direction:column;gap:4px;font-size:14px">
+            <span>影音區塊 — VOD 1+3 精選</span>
+            <div style="display:flex;flex-direction:column;gap:4px;width:100%;margin-top:4px">
+              <div style="background:rgba(232,0,42,0.15);border-radius:3px;padding:10px;font-size:14px;width:100%">大圖 ▶ 縮圖 + 標題（全寬）</div>
+              <div style="background:rgba(232,0,42,0.1);border-radius:3px;padding:6px;font-size:14px">小圖 ▶ 第 2 則</div>
+              <div style="background:rgba(232,0,42,0.1);border-radius:3px;padding:6px;font-size:14px">小圖 ▶ 第 3 則</div>
+              <div style="background:rgba(232,0,42,0.1);border-radius:3px;padding:6px;font-size:14px">小圖 ▶ 第 4 則</div>
+            </div>
+            <span style="font-size:14px;margin-top:2px">[ 看更多影音新聞 › ]</span>
+          </div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block full" style="font-size:14px;padding:6px">Footer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 元件分類 -->
+  <div class="mt24">
+    <h3>元件類型分類</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>區塊</th>
+            <th>類型</th>
+            <th>關鍵規格</th>
+            <th>Desktop位置</th>
+            <th>Mobile位置</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>新聞輪播</td>
+            <td><span class="badge badge-blue">通用</span></td>
+            <td>15則 CMS手動，5s自動輪播，第4則可設廣編，點擊 › → 新聞內頁</td>
+            <td>首屏左側</td>
+            <td>快訊下方</td>
+          </tr>
+          <tr>
+            <td>新聞看板</td>
+            <td><span class="badge badge-amber">首頁專屬</span></td>
+            <td>Slot 1–4 皆為 CMS 圖片＋連結，點擊 › → 各自設定的連結。若 CMS 設定直播 URL，前端在該 Slot 左上角顯示紅色 LIVE tag；點擊仍導向設定連結（影音總覽頁 Hub）</td>
+            <td>首屏右側<br><span style="font-size:14px;color:var(--text-dim)">2×2：上排Slot1+2，下排Slot3+4</span></td>
+            <td>TOP10 下方<br><span style="font-size:14px;color:var(--text-dim)">2×2 Grid</span></td>
+          </tr>
+          <tr>
+            <td>Insider 電子報</td>
+            <td><span class="badge badge-dim">外部</span></td>
+            <td>僅預留 div，外部腳本注入，Desktop only</td>
+            <td>看板下方</td>
+            <td>不顯示</td>
+          </tr>
+          <tr>
+            <td>新聞議題</td>
+            <td><span class="badge badge-amber">首頁專屬</span></td>
+            <td>8~16則，前2個藍底白字，橫向scroll [ ‹ › ]</td>
+            <td>輪播下方</td>
+            <td>輪播下方</td>
+          </tr>
+          <tr>
+            <td>TOP10 / 人氣榜</td>
+            <td><span class="badge badge-dim">外部 Taboola</span></td>
+            <td>Taboola Widget，獨立載入，失敗則隱藏</td>
+            <td>議題下方</td>
+            <td>看板下方</td>
+          </tr>
+          <tr>
+            <td>即時新聞</td>
+            <td><span class="badge badge-blue">通用</span></td>
+            <td>8則新聞+廣告洞位(第3、8則)，底部 [ 看更多 › ] → 即時新聞總覽頁</td>
+            <td>Taboola下</td>
+            <td>人氣榜下</td>
+          </tr>
+          <tr>
+            <td>分類焦點</td>
+            <td><span class="badge badge-amber">首頁專屬</span></td>
+            <td>依CMS設定，預設生活/政治/娛樂/體育，各4則最新排序，每10分鐘更新，點擊 › → 新聞內頁</td>
+            <td>即時新聞下<br>2×2 Grid，無Taboola並排</td>
+            <td>垂直堆疊</td>
+          </tr>
+          <tr>
+            <td>精選議題包</td>
+            <td><span class="badge badge-blue">通用</span></td>
+            <td>來源：版面管理 › 議題頁 › 議題總覽 › 釘選清單，不足則遞補未釘選議題；有幾則 show 幾則，0則則隱藏整個區塊含按鈕；底部 [ 看更多議題 › ] → 議題總覽頁</td>
+            <td>分類焦點下</td>
+            <td>分類焦點下</td>
+          </tr>
+          <tr>
+            <td>影音 VOD</td>
+            <td><span class="badge badge-blue">通用</span></td>
+            <td>4 Playlist各取最新1則，縮圖 + ▶ Play Button，點擊 ▶ → 播放頁；底部 [ 看更多影音 › ] → Hub</td>
+            <td>1+3 並排（大圖+3小圖）</td>
+            <td>垂直堆疊</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 議題包邏輯 -->
+  <div class="mt24 callout" style="border-left-color:var(--cyan)">
+    <b>精選議題包 — 資料來源邏輯</b><br>
+    來源路徑：<code>版面管理 › 議題頁 › 議題總覽 › 釘選清單</code><br>
+    首頁摘要的議題包，依序取議題總覽中<strong>已釘選</strong>的議題包。<br>
+    若釘選數量不足，自動遞補<strong>未釘選的議題包</strong>補至所需數量。<br>
+    <strong>有幾則顯示幾則</strong>，不強制固定數量；若來源為 0 則，<strong>整個區塊（含「看更多議題」按鈕）一律隱藏</strong>，不留空白。<br>
+    每張議題卡點擊 › → 對應議題頁。底部「看更多議題」 › → <strong>議題總覽頁</strong>。
+  </div>
+
+  <div class="mt24 callout">
+    <b>⚠ 影音 VOD 區塊說明</b><br>
+    <strong>VOD 1+3</strong>：縮圖 + ▶ Play Button，點擊後進入站內 <code>/video/{video_id}</code> 播放頁。<br>
+    影片來源：後端設定的 4 個主要 Playlist，各取最新一則（共 4 則），依發布時間排序，最新為大圖，次新3則為小圖。
+  </div>
+
+  <div class="ui-flow">
+    <div class="ui-flow-label">UI Flow — 點擊行為</div>
+    <div class="ui-flow-rows">
+      <div class="ui-flow-row">
+        <span class="uif-trigger">新聞輪播 / 即時新聞 / 分類焦點 點擊文章</span>
+        <span class="uif-arrow">→</span>
+        <span class="uif-dest internal">新聞內頁</span>
+      </div>
+      <div class="ui-flow-row">
+        <span class="uif-trigger">新聞看板 任一 Slot 點擊</span>
+        <span class="uif-arrow">→</span>
+        <span class="uif-dest internal">影音總覽頁 /video</span>
+      </div>
+      <div class="ui-flow-row">
+        <span class="uif-trigger">影音區塊 點擊影片縮圖</span>
+        <span class="uif-arrow">→</span>
+        <span class="uif-dest internal">播放頁 /video/{id}</span>
+      </div>
+      <div class="ui-flow-row">
+        <span class="uif-trigger">影音區塊「看更多影音」</span>
+        <span class="uif-arrow">→</span>
+        <span class="uif-dest internal">影音總覽頁 /video</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════ DEDUP ══ -->
+<section id="dedup">
+  <div class="sec-header">
+    <span class="sec-num">02</span>
+    <h2>首頁內容排重邏輯 <span style="color:var(--red);font-weight:700;font-size:16px">— MVP 階段，開發評估暫時不做</span></h2>
+  </div>
+
+  <div class="sec-meta">
+    <div class="sec-meta-item"><span class="meta-key">目的</span><span class="meta-val">避免首頁連續區塊出現相同新聞</span></div>
+    <div class="sec-meta-item"><span class="meta-key">原則</span><span class="meta-val">最低工程成本，僅針對三個最易重複的區塊</span></div>
+  </div>
+
+  <div class="dedup-flow mt16">
+    <div class="dedup-step">
+      <div class="dedup-num" style="background:rgba(59,130,246,0.2);color:var(--blue)">1</div>
+      <div class="dedup-content">
+        <h4 style="color:var(--blue)">News Carousel（輪播）— 最高優先，不受排重影響</h4>
+        <p>編輯手動策展，內容不因任何排重規則調整。<br>
+        <strong>→ 建立 <code>carousel_news_ids</code> 集合</strong>，供後續區塊排重使用。</p>
+      </div>
+    </div>
+    <div class="dedup-step">
+      <div class="dedup-num" style="background:rgba(34,197,94,0.2);color:var(--green)">2</div>
+      <div class="dedup-content">
+        <h4 style="color:var(--green)">Realtime News（即時新聞）</h4>
+        <p>抓取最新新聞時，先排除 <code>carousel_news_ids</code>。<br>
+        實際顯示 <strong>8 則</strong>，廣告洞位在第3、8則位置插入（廣告不影響新聞索引）。<br>
+        <strong>→ 建立 <code>realtime_news_ids</code>（僅8則新聞本身，不含廣告位）</strong></p>
+        <div class="code" style="margin-top:8px">
+<span class="cmt">// 顯示順序</span>
+新聞 #1
+新聞 #2
+[<span class="val">AD 廣告洞位</span>]   <span class="cmt">← 版面插入，不計入 realtime_news_ids</span>
+新聞 #3
+新聞 #4
+新聞 #5
+新聞 #6
+[<span class="val">AD 廣告洞位</span>]   <span class="cmt">← 版面插入，不計入 realtime_news_ids</span>
+新聞 #7
+新聞 #8</div>
+      </div>
+    </div>
+    <div class="dedup-step">
+      <div class="dedup-num" style="background:rgba(168,85,247,0.2);color:var(--purple)">3</div>
+      <div class="dedup-content">
+        <h4 style="color:var(--purple)">Category Focus（分類焦點）</h4>
+        <p>抓取時排除 <code>carousel_news_ids</code> + <code>realtime_news_ids</code>。<br>
+        每分類目標顯示 <strong>4 則</strong>，不允許少於4則（不顯示空白）。</p>
+        <div class="callout red" style="margin-top:8px">
+          <b>補位規則（優先順序）</b><br>
+          1. 補同分類中未用過的新聞<br>
+          2. 若仍不足，允許補入已在 Realtime News 的新聞<br>
+          3. <strong>任何情況下，不補入已在 Carousel 的新聞</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout green mt16">
+    <b>不參與排重的區塊：</b>News Topics, News Boards, Featured Topics, Video Section, Taboola模組。
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════ VIDEO HUB ══ -->
+<!-- ════════════════════════════════════════ VIDEO DATASOURCE ══ -->
+<section id="video-datasource">
+  <div class="sec-header">
+    <span class="sec-num">03</span>
+    <h2>影音資料來源</h2>
+  </div>
+  <div class="sec-meta">
+    <div class="sec-meta-item"><span class="meta-key">用途</span><span class="meta-val">說明影音清單從哪裡來、如何更新、怎麼對應到各頁面</span></div>
+    <div class="sec-meta-item"><span class="meta-key">對應 PRD</span><span class="meta-val">第 2 章 — 資料與後端邏輯</span></div>
+  </div>
+
+  <!-- 1. 為什麼這樣設計 -->
+  <div class="card mt16" style="border-left:3px solid var(--amber)">
+    <div class="card-title">為什麼這樣設計</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;font-size:14px">
+      <div>
+        <p style="margin-bottom:8px"><strong>MVP 階段 Descope 不建立影音後台</strong>，編輯無法手動更新清單，內容維護必須全面改為系統自動化排程。</p>
+        <p style="margin-bottom:4px">網新現有的實際更新頻率：</p>
+        <ul>
+          <li>平時一天 <strong>2–5 次</strong>（早上 9 點、中午 12–1 點、下午 5–6 點、晚上 12 點前）</li>
+          <li>大事件時一天最多 <strong>10 次</strong></li>
+        </ul>
+      </div>
+      <div class="callout" style="margin:0;font-size:14px">
+        <b>架構考量建議</b><br>
+        捨棄依賴 Tag 的動態搜尋（Search API），改採 YouTube Playlist ID 指定抓取，預期上可以避免 API 成本過高與 Quota 爆量的風險。<br><br>
+        從「簡單、快速、不重工」出發思考，建議採用系統<strong>每 10 分鐘</strong>定期更新的作法，以系統穩定排程取代人工介入，不去思考額外需要提供網新手動更新的途徑。
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 五組 Playlist 使用範圍 -->
+  <div class="card mt16">
+    <div class="card-title">Playlist 使用範圍（共五個頁面）</div>
+    <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;margin-top:4px">
+      <div style="display:flex;gap:12px;padding:10px;background:var(--bg3);border-radius:6px;align-items:flex-start">
+        <div style="min-width:80px;font-weight:600;color:var(--text)">首頁</div>
+        <div style="color:var(--text-mid)">VOD 1+3 精選來源，取各 Playlist 最新一則顯示</div>
+      </div>
+      <div style="display:flex;gap:12px;padding:10px;background:var(--bg3);border-radius:6px;align-items:flex-start">
+        <div style="min-width:80px;font-weight:600;color:var(--text)">影音總覽</div>
+        <div style="color:var(--text-mid)">各策展區塊來源，每組 Playlist 對應一個 1大+3小 的編輯區塊</div>
+      </div>
+      <div style="display:flex;gap:12px;padding:10px;background:var(--bg3);border-radius:6px;align-items:flex-start">
+        <div style="min-width:80px;font-weight:600;color:var(--text)">影音列表</div>
+        <div style="color:var(--text-mid)">Tab 分類文字來源，以及該 Tab 底下 24 則影片的內容來源</div>
+      </div>
+      <div style="display:flex;gap:12px;padding:10px;background:var(--bg3);border-radius:6px;align-items:flex-start">
+        <div style="min-width:80px;font-weight:600;color:var(--text)">影音播放頁</div>
+        <div style="color:var(--text-mid)">依影片的 Primary Playlist 初始化下方 24 則導覽清單</div>
+      </div>
+      <div style="display:flex;gap:12px;padding:10px;background:var(--bg3);border-radius:6px;align-items:flex-start;border:1px dashed var(--border)">
+        <div style="min-width:80px;font-weight:600;color:var(--text)">氣象頁</div>
+        <div style="color:var(--text-mid)">氣象影音區塊來源，獨立一組 Playlist，後端新增標籤即可掛載，不需改動前端播放邏輯</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. 更新方式 + 名稱過濾 並列 -->
+  <div class="card-grid mt16">
+    <div class="card">
+      <div class="card-title">每10分鐘自動更新，每組固定 24 則</div>
+      <ul style="font-size:14px">
+        <li>系統每 <strong>10 分鐘</strong>自動排程更新一次</li>
+        <li>每組 Playlist 固定抓取最新 <strong>24 則</strong></li>
+        <li>一個刷新週期內，清單為固定資料</li>
+        <li><strong>不開發</strong>手動強制更新的後台介面</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">清單名稱自動過濾</div>
+      <p style="font-size:14px;margin-bottom:8px">YouTube 上的 Playlist 名稱包含平台後綴，系統需自動移除以符合站內 UI 顯示：</p>
+      <ul style="font-size:14px;margin-bottom:10px">
+        <li>移除後綴 <code> │ TVBS新聞</code>（含前方空格與分隔線）</li>
+        <li>移除標題首尾的 <code>【</code> 與 <code>】</code> 括號</li>
+      </ul>
+      <div style="background:var(--bg3);border-radius:6px;padding:10px;font-size:13px">
+        <div style="margin-bottom:4px"><span style="color:var(--text-dim)">YouTube 原始：</span><code>【TVBS每日熱搜榜】│ TVBS新聞</code></div>
+        <div style="color:var(--green)">站內顯示：<strong>TVBS每日熱搜榜</strong></div>
+        <div style="margin-top:6px;margin-bottom:4px"><span style="color:var(--text-dim)">YouTube 原始：</span><code>【即時新聞搶先看】│ TVBS新聞</code></div>
+        <div style="color:var(--green)">站內顯示：<strong>即時新聞搶先看</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. 名稱應用位置 -->
+  <div class="card mt16">
+    <div class="card-title">過濾後名稱套用的三個位置</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;font-size:14px;margin-top:4px">
+      <div style="background:var(--bg3);border-radius:6px;padding:12px;text-align:center">
+        <div style="color:var(--blue);font-weight:600;margin-bottom:6px">① 影音總覽頁（Hub）</div>
+        <div style="color:var(--text-mid);font-size:13px">各策展區塊（1大3小）<br>之區塊標題</div>
+      </div>
+      <div style="background:var(--bg3);border-radius:6px;padding:12px;text-align:center">
+        <div style="color:var(--blue);font-weight:600;margin-bottom:6px">② 影音列表頁</div>
+        <div style="color:var(--text-mid);font-size:13px">上方分類 Tab<br>的顯示文字</div>
+      </div>
+      <div style="background:var(--bg3);border-radius:6px;padding:12px;text-align:center">
+        <div style="color:var(--blue);font-weight:600;margin-bottom:6px">③ 單則播放頁</div>
+        <div style="color:var(--text-mid);font-size:13px">麵包屑第三層<br>之分類名稱</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 三頁職責與關係 -->
+  <div class="card mt16">
+    <div class="card-title">影音三頁的職責與關係</div>
+
+    <!-- 路徑圖 -->
+    <div style="position:relative;margin-bottom:8px;margin-top:4px">
+      <!-- 主路徑 -->
+      <div style="display:flex;align-items:center;gap:0">
+        <div style="flex:1;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);border-radius:8px;padding:12px;text-align:center">
+          <div style="font-weight:600;color:var(--blue);font-size:14px">影音總覽頁</div>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:2px">Hub</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;padding:0 8px;flex-shrink:0">
+          <div style="font-size:12px;color:var(--text-dim);margin-bottom:2px">點擊「更多影音」</div>
+          <div style="color:var(--amber);font-size:18px">→</div>
+        </div>
+        <div style="flex:1;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);border-radius:8px;padding:12px;text-align:center">
+          <div style="font-weight:600;color:var(--blue);font-size:14px">Playlist 列表頁</div>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:2px">/video/playlist/{id}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;padding:0 8px;flex-shrink:0">
+          <div style="font-size:12px;color:var(--text-dim);margin-bottom:2px">點擊影片卡</div>
+          <div style="color:var(--amber);font-size:18px">→</div>
+        </div>
+        <div style="flex:1;background:rgba(232,0,42,0.1);border:1px solid rgba(232,0,42,0.3);border-radius:8px;padding:12px;text-align:center">
+          <div style="font-weight:600;color:var(--red);font-size:14px">單則播放頁</div>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:2px">/video/{id}</div>
+        </div>
+      </div>
+      <!-- Hub 直接到播放頁的弧線（SVG） -->
+      <div style="padding:0 calc(50% / 3 + 16px);margin-top:4px">
+        <svg viewBox="0 0 300 36" style="width:100%;display:block;overflow:visible">
+          <defs>
+            <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="var(--amber)" opacity="0.7"/>
+            </marker>
+          </defs>
+          <!-- 弧線從左端到右端 -->
+          <path d="M 0,4 Q 150,36 300,4" fill="none" stroke="var(--amber)" stroke-width="1.5" opacity="0.7" marker-end="url(#arrowhead)"/>
+          <!-- 中間標籤 -->
+          <rect x="100" y="14" width="100" height="16" rx="3" fill="var(--bg2)" opacity="0.95"/>
+          <text x="150" y="26" text-anchor="middle" font-size="12" fill="var(--amber)" opacity="0.8" font-family="-apple-system, BlinkMacSystemFont, sans-serif">點擊影音卡片</text>
+        </svg>
+      </div>
+    </div>
+    <!-- 文字說明保留 -->
+    <div style="font-size:13px;color:var(--text-dim);margin-bottom:20px">
+      ※ Hub 點擊影片卡也可直接進入播放頁，不一定要經過列表頁
+    </div>
+
+    <!-- 三欄職責對照 -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;font-size:14px">
+      <!-- Hub -->
+      <div style="background:var(--bg3);border-radius:6px;padding:14px">
+        <div style="color:var(--blue);font-weight:600;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">影音總覽頁（Hub）</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div>
+            <div style="font-size:12px;color:var(--text-dim);margin-bottom:2px">角色</div>
+            <div>策展與分流，引導使用者進入各 Playlist</div>
+          </div>
+          <div>
+            <div style="font-size:12px;color:var(--text-dim);margin-bottom:2px">播放邏輯</div>
+            <div style="color:var(--text-dim)">無，點擊影片跳轉播放頁<br><span style="color:var(--red);font-size:13px">※ Live 直播除外，Hero Section 直接站內播放</span></div>
+          </div>
+          <div>
+            <div style="font-size:12px;color:var(--text-dim);margin-bottom:2px">Playlist 的用途</div>
+            <div>組織各策展區塊（1大3小）的來源資料</div>
+          </div>
+        </div>
+      </div>
+      <!-- 列表頁 -->
+      <div style="background:var(--bg3);border-radius:6px;padding:14px">
+        <div style="color:var(--blue);font-weight:600;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Playlist 列表頁</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div>
+            <div style="font-size:12px;color:var(--text-dim);margin-bottom:2px">角色</div>
+            <div>導覽節點，提供同分類 24 則完整選片</div>
+          </div>
+          <div>
+            <div style="font-size:12px;color:var(--text-dim);margin-bottom:2px">播放邏輯</div>
+            <div style="color:var(--text-dim)">無，點擊影片跳轉播放頁</div>
+          </div>
+          <div>
+            <div style="font-size:12px;color:var(--text-dim);margin-bottom:2px">Playlist 的用途</div>
+            <div>決定頁面顯示哪 24 則、Tab 顯示哪些分類</div>
+          </div>
+        </div>
+      </div>
+      <!-- 播放頁 -->
+      <div style="background:rgba(232,0,42,0.05);border:1px solid rgba(232,0,42,0.15);border-radius:6px;padding:14px">
+        <div style="color:var(--red);font-weight:600;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid rgba(232,0,42,0.2)">單則播放頁</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div>
+            <div style="font-size:12px;color:var(--text-dim);margin-bottom:2px">角色</div>
+            <div>流量終點，唯一承載播放邏輯的頁面</div>
+          </div>
+          <div>
+            <div style="font-size:12px;color:var(--text-dim);margin-bottom:2px">播放邏輯</div>
+            <div style="color:var(--red);font-weight:500">全部在這裡</div>
+          </div>
+          <div>
+            <div style="font-size:12px;color:var(--text-dim);margin-bottom:2px">Playlist 的用途</div>
+            <div>帶入 playlist_id，顯示對應 playlist 最新24則</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 關鍵提醒 -->
+    <div class="callout red mt16" style="font-size:14px">
+      <strong>關鍵提醒：</strong>播放頁的導覽清單來源完全由 URL 的 <code>playlist_id</code> 決定，與入口無關。<code>video_id</code> 管播放，<code>playlist_id</code> 管清單，兩者獨立互不影響。
+    </div>
+    <div class="callout mt16" style="font-size:14px;border-left-color:var(--blue)">
+      <strong>playlist_id 機制：</strong>後端排程執行時，依 YouTube API 抓取結果將影片對應到所屬 playlist，並將 <code>playlist_id</code> 寫入連結，之後固定不變。Primary Playlist mapping 概念已移除，清單來源改為純 URL 驅動。
+    </div>
+    <div class="callout mt16" style="font-size:14px;border-left-color:var(--amber)">
+      <strong>播放頁導覽清單顯示規則：</strong>
+      <ul style="margin-top:8px">
+        <li><strong>有效 playlist_id</strong>：顯示該 playlist 當下最新24則（與影片是否在其中無關）</li>
+        <li><strong>無 playlist_id</strong>：四個 playlist 合併依 <code>published_at</code> 降冪取最新24則</li>
+        <li><strong>無效 playlist_id</strong>：下方清單區塊空白，不 render</li>
+      </ul>
+      <p style="margin-top:8px;color:var(--text-dim);font-size:13px">※ Playlist 顯示順序由新聞部指定，MVP 階段後端 hardcode，調整需走開發流程。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════ VIDEO HUB ══ -->
+<section id="video-hub">
+  <div class="sec-header">
+    <span class="sec-num">04</span>
+    <h2>影音總覽頁（Hub）<span style="font-size:14px;font-weight:400;color:var(--text-dim);margin-left:8px">/video</span></h2>
+  </div>
+
+  <div class="sec-meta">
+    <div class="sec-meta-item"><span class="meta-key">路由</span><span class="meta-val"><code>/video</code></span></div>
+    <div class="sec-meta-item"><span class="meta-key">角色</span><span class="meta-val">策展與分流，不做播放邏輯</span></div>
+  </div>
+
+  <div class="card-grid" style="margin-bottom:28px">
+    <div class="card" style="grid-column:1/-1">
+      <div class="card-title">影音系統核心目標</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 32px;font-size:14px;margin-top:4px">
+        <div>🔒 <strong>流量留存</strong>：統一由站內播放頁承載，不外導 YouTube</div>
+        <div>🎛 <strong>體驗分流</strong>：Live / VOD 兩路分流，各自對應不同使用場景</div>
+        <div>⚙️ <strong>開發效率</strong>：Hub 純策展，播放邏輯收斂至播放頁，職責分離</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="compare-grid mt16">
+    <div>
+      <div class="wireframe-label">DESKTOP 頁面結構</div>
+      <div class="wireframe">
+        <div class="wf-row">
+          <div class="wf-block full" style="font-size:14px;padding:6px">Header + 快訊</div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block ext full wf-ht" style="font-size:14px">廣告橫幅</div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block full red wf-ht-lg" style="flex-direction:column;gap:4px">
+            <span style="font-size:14px">🔴 Hero Live 24H直播</span>
+            <span style="font-size:14px">全寬 16:9 ｜ autoplay muted</span>
+            <span style="font-size:14px;color:var(--text-dim)">音量控制使用 YouTube 官方元件</span>
+          </div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block w3 blue wf-ht-xl" style="flex-direction:column;gap:4px;font-size:14px">
+            <span>Playlist A — 大圖卡（66%）</span>
+            <span style="font-size:14px">縮圖 + ▶ + 標題 + 時間</span>
+            <span style="font-size:14px;margin-top:4px;color:var(--blue)">▶ 點擊 → 播放頁</span>
+          </div>
+          <div class="wf-block w2" style="flex-direction:column;gap:6px;min-height:120px;font-size:14px">
+            <span style="color:var(--text-dim)">Playlist A 小圖卡</span>
+            <div style="background:var(--bg3);padding:6px;border-radius:3px">▶ 小圖卡 #2</div>
+            <div style="background:var(--bg3);padding:6px;border-radius:3px">▶ 小圖卡 #3</div>
+            <div style="background:var(--bg3);padding:6px;border-radius:3px">▶ 小圖卡 #4</div>
+          </div>
+        </div>
+        <div class="wf-row" style="margin-top:4px">
+          <div class="wf-block full amber" style="font-size:14px;padding:6px">[ 更多影音新聞 › ] → /video/playlist/A</div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block full" style="font-size:14px;border-style:dashed">Playlist B（同上結構）｜ [ 更多影音新聞 › ]</div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block full" style="font-size:14px;border-style:dashed">Playlist C（同上結構）｜ [ 更多影音新聞 › ]</div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block full" style="font-size:14px;border-style:dashed">Playlist D（同上結構）｜ [ 更多影音新聞 › ]</div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block full" style="font-size:14px;padding:6px">Footer</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="wireframe-label">MOBILE 頁面結構</div>
+      <div class="wireframe">
+        <div class="wf-row">
+          <div class="wf-block full" style="font-size:14px;padding:6px">Header + 快訊</div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block ext full wf-ht" style="font-size:14px">廣告橫幅</div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block full red wf-ht" style="font-size:14px;flex-direction:column;gap:3px">
+            <span>🔴 Hero Live（全寬）</span>
+            <span style="font-size:14px;color:var(--text-dim)">音量控制使用 YouTube 官方元件</span>
+          </div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block full blue wf-ht-lg" style="font-size:14px">Playlist A 大圖卡（全寬）<br><span style="font-size:14px">▶ 點擊 → 播放頁</span></div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block full" style="flex-direction:column;gap:4px;min-height:80px;font-size:14px">
+            <div style="background:var(--bg3);padding:6px;border-radius:3px">▶ 小圖卡 #2 → 播放頁</div>
+            <div style="background:var(--bg3);padding:6px;border-radius:3px">▶ 小圖卡 #3 → 播放頁</div>
+            <div style="background:var(--bg3);padding:6px;border-radius:3px">▶ 小圖卡 #4 → 播放頁</div>
+          </div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block full amber" style="font-size:14px;padding:6px">[ 更多影音新聞 › ] → Playlist列表頁</div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block full" style="font-size:14px;border-style:dashed">Playlist B / C / D（同上垂直堆疊）</div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block full" style="font-size:14px;padding:6px">Footer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout mt24" style="border-left-color:var(--red)">
+    <b>Hub Hero Live 直播區塊規格：</b>
+    <ul style="margin-top:8px;font-size:14px">
+      <li><strong>固定標題：</strong>TVBS 網路新聞24小時直播</li>
+      <li><strong>直播來源：</strong><code>https://www.youtube.com/watch?v=m_dhMSvUCIc</code></li>
+      <li><strong>來源提供方式：</strong>由後端 API 提供</li>
+    </ul>
+  </div>
+
+  <div class="callout mt16">
+    <b>Hub Hero Live 行為規則：</b><br>
+    進入頁面 → <strong>預設 autoplay muted</strong>。若被瀏覽器阻擋，顯示封面圖 + Play Button Overlay。<br>
+    Hero Live 直播在播放中，<strong>不影響使用者點擊下方 VOD 影片卡正常跳轉播放頁</strong>。
+  </div>
+
+  <div class="callout mt16" style="border-left-color:var(--cyan)">
+    <b>Playlist 名稱來源與過濾規則</b><br>
+    來源：YouTube Data API v3 <code>playlists.list</code> → <code>snippet.title</code><br>
+    系統需自動移除後綴 <code> │ TVBS新聞</code>（含前方空格與分隔線），並移除首尾 <code>【】</code> 括號。<br>
+    <span style="color:var(--text-dim);font-size:14px;margin-top:4px;display:block">
+      範例：<code>【TVBS每日熱搜榜】│ TVBS新聞</code> → <strong>TVBS每日熱搜榜</strong>
+    </span>
+    套用範圍：Hub 區塊標題、Playlist 列表頁 Tab 文字、播放頁麵包屑第三層。
+  </div>
+
+  <div class="ui-flow">
+    <div class="ui-flow-label">UI Flow — 點擊行為</div>
+    <div class="ui-flow-rows">
+      <div class="ui-flow-row">
+        <span class="uif-trigger">VOD 大圖卡 / 小圖卡 點擊影片</span>
+        <span class="uif-arrow">→</span>
+        <span class="uif-dest internal">播放頁 /video/{id}</span>
+      </div>
+      <div class="ui-flow-row">
+        <span class="uif-trigger">「更多影音新聞」按鈕</span>
+        <span class="uif-arrow">→</span>
+        <span class="uif-dest internal">Playlist 列表頁 /video/playlist/{id}</span>
+      </div>
+      <div class="ui-flow-row">
+        <span class="uif-trigger">Hero Live</span>
+        <span class="uif-arrow">→</span>
+        <span class="uif-dest internal">站內播放，不跳頁</span>
+        <span class="uif-note">點擊其他影片仍可正常跳轉播放頁</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════ PLAYLIST PAGE ══ -->
+<section id="playlist-page">
+  <div class="sec-header">
+    <span class="sec-num">05</span>
+    <h2>Playlist 專屬列表頁</h2>
+  </div>
+
+  <div class="sec-meta">
+    <div class="sec-meta-item"><span class="meta-key">路由</span><span class="meta-val"><code>/video/playlist/{playlist_id}</code></span></div>
+    <div class="sec-meta-item"><span class="meta-key">角色</span><span class="meta-val">導覽節點，選片入口</span></div>
+  </div>
+
+  <div class="compare-grid mt16">
+    <div>
+      <div class="wireframe-label">DESKTOP — 列表頁</div>
+      <div class="wireframe">
+        <div class="wf-row">
+          <div class="wf-block full" style="font-size:14px;padding:6px">Header + 快訊</div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block ext full wf-ht" style="font-size:14px">廣告橫幅</div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block full amber wf-ht" style="font-size:14px">
+            分類 Tab（取代 Breadcrumb）<br>
+            <span style="font-size:14px">[ Playlist A ★ active ] [ Playlist B ] [ Playlist C ] [ Playlist D ]</span><br>
+            <span style="font-size:14px;color:var(--amber)">點擊其他 Tab → 整頁跳轉 /playlist/{id}</span>
+          </div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block full" style="flex-direction:column;gap:8px;min-height:200px;padding:8px">
+            <span style="font-size:14px;color:var(--text-dim);margin-bottom:2px">影片列表（24則，2欄 Grid）</span>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%">
+              <!-- 卡片 #1 -->
+              <div style="display:flex;flex-direction:column;gap:4px;background:var(--bg3);border-radius:4px;overflow:hidden;border:1px solid var(--border)">
+                <div style="aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--blue);border:2px solid var(--blue);border-radius:3px;background:rgba(59,130,246,0.08)">▶ 縮圖 16:9</div>
+                <div style="padding:4px 6px 6px">
+                  <div style="font-size:14px;color:var(--text);line-height:1.4;font-weight:500">影片標題第一則，兩行顯示</div>
+                  <div style="font-size:12px;color:var(--text-dim);margin-top:3px">30分鐘前</div>
+                </div>
+              </div>
+              <!-- 卡片 #2 -->
+              <div style="display:flex;flex-direction:column;gap:4px;background:var(--bg3);border-radius:4px;overflow:hidden;border:1px solid var(--border)">
+                <div style="aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--blue);border:2px solid var(--blue);border-radius:3px;background:rgba(59,130,246,0.08)">▶ 縮圖 16:9</div>
+                <div style="padding:4px 6px 6px">
+                  <div style="font-size:14px;color:var(--text);line-height:1.4;font-weight:500">影片標題第二則</div>
+                  <div style="font-size:12px;color:var(--text-dim);margin-top:3px">1小時前</div>
+                </div>
+              </div>
+              <!-- 卡片 #3 -->
+              <div style="display:flex;flex-direction:column;gap:4px;background:var(--bg3);border-radius:4px;overflow:hidden;border:1px solid var(--border)">
+                <div style="aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--blue);border:2px solid var(--blue);border-radius:3px;background:rgba(59,130,246,0.08)">▶ 縮圖 16:9</div>
+                <div style="padding:4px 6px 6px">
+                  <div style="font-size:14px;color:var(--text);line-height:1.4;font-weight:500">影片標題第三則</div>
+                  <div style="font-size:12px;color:var(--text-dim);margin-top:3px">2小時前</div>
+                </div>
+              </div>
+              <!-- 卡片 #4 -->
+              <div style="display:flex;flex-direction:column;gap:4px;background:var(--bg3);border-radius:4px;overflow:hidden;border:1px solid var(--border)">
+                <div style="aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--blue);border:2px solid var(--blue);border-radius:3px;background:rgba(59,130,246,0.08)">▶ 縮圖 16:9</div>
+                <div style="padding:4px 6px 6px">
+                  <div style="font-size:14px;color:var(--text);line-height:1.4;font-weight:500">影片標題第四則</div>
+                  <div style="font-size:12px;color:var(--text-dim);margin-top:3px">3小時前</div>
+                </div>
+              </div>
+              <div style="font-size:14px;color:var(--text-dim);padding:4px;grid-column:1/-1;text-align:center">… 共 24 則，皆同 ▶ → 播放頁</div>
+            </div>
+          </div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block full" style="font-size:14px;padding:6px">Footer</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="wireframe-label">MOBILE — 列表頁</div>
+      <div class="wireframe">
+        <div class="wf-row">
+          <div class="wf-block full" style="font-size:14px;padding:6px">Header + 快訊</div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block ext full wf-ht" style="font-size:14px">廣告橫幅</div>
+        </div>
+        <!-- 影音分類Tab横排 -->
+        <div class="wf-row mt16">
+          <div class="wf-block full amber wf-ht" style="font-size:14px;flex-direction:column;gap:2px">
+            <span>影音分類 Tab [ ‹ › 橫向滾動 ]</span>
+            <span style="color:var(--amber)">TVBS熱搜榜 ★ ｜ 每日天氣 ｜ 一刀未剪 ｜ 萬馬奔騰 …</span>
+          </div>
+        </div>
+        <!-- 影片列表：大縮圖左 + 標題右 -->
+        <div class="wf-row mt16">
+          <div class="wf-block full" style="flex-direction:column;gap:6px;min-height:280px">
+            <span style="font-size:14px;color:var(--text-dim)">影片列表（24則，全寬橫向列）</span>
+            <div style="display:flex;gap:6px;align-items:center">
+              <div style="width:96px;min-height:54px;flex-shrink:0;font-size:14px;color:var(--blue);border:2px solid var(--blue);border-radius:3px;background:rgba(59,130,246,0.08);display:flex;align-items:center;justify-content:center">▶ 縮圖</div>
+              <div style="flex:1;font-size:14px;line-height:1.5">
+                <div style="color:var(--text);font-weight:500">影片標題 #1</div>
+                <div style="color:var(--text-dim)">30分鐘前</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <div style="width:96px;min-height:54px;flex-shrink:0;font-size:14px;color:var(--blue);border:2px solid var(--blue);border-radius:3px;background:rgba(59,130,246,0.08);display:flex;align-items:center;justify-content:center">▶ 縮圖</div>
+              <div style="flex:1;font-size:14px;line-height:1.5">
+                <div style="color:var(--text);font-weight:500">影片標題 #2</div>
+                <div style="color:var(--text-dim)">1小時前</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <div style="width:96px;min-height:54px;flex-shrink:0;font-size:14px;color:var(--blue);border:2px solid var(--blue);border-radius:3px;background:rgba(59,130,246,0.08);display:flex;align-items:center;justify-content:center">▶ 縮圖</div>
+              <div style="flex:1;font-size:14px;line-height:1.5">
+                <div style="color:var(--text);font-weight:500">影片標題 #3</div>
+                <div style="color:var(--text-dim)">2小時前</div>
+              </div>
+            </div>
+            <div style="font-size:14px;color:var(--text-dim);padding:4px 0">... 共 24 則，皆同 ▶ → 播放頁</div>
+          </div>
+        </div>
+        <div class="wf-row mt16">
+          <div class="wf-block full" style="font-size:14px;padding:6px">Footer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt16">
+    <div class="wireframe-label">行為規則</div>
+    <div class="card">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div>
+          <div class="card-title">Tab 行為</div>
+          <ul style="font-size:14px;margin-bottom:0">
+            <li>Tab 對應影音總覽各 VOD Playlist 分類</li>
+            <li>當前 playlist_id 所屬分類為 Active 狀態</li>
+            <li>點擊 Tab → 整頁跳轉（MVP 不使用 AJAX）</li>
+          </ul>
+        </div>
+        <div>
+          <div class="card-title">影片列表行為</div>
+          <ul style="font-size:14px;margin-bottom:8px">
+            <li>固定 24 則，依後端回傳順序</li>
+            <li>點擊任一影片 → <code>/video/{video_id}?playlist={playlist_id}</code></li>
+          </ul>
+          <div class="callout red" style="margin-top:8px">
+            <b>來源 playlist 帶入播放頁</b><br>
+            從列表頁點擊影片時，前端帶入當前 <code>playlist_id</code> 作為 query 參數，播放頁下方清單即顯示該 playlist 最新24則。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui-flow">
+    <div class="ui-flow-label">UI Flow — 點擊行為</div>
+    <div class="ui-flow-rows">
+      <div class="ui-flow-row">
+        <span class="uif-trigger">點擊分類 Tab（非當前）</span>
+        <span class="uif-arrow">→</span>
+        <span class="uif-dest internal">同頁整頁跳轉 /playlist/{id}</span>
+        <span class="uif-note">MVP 不使用 AJAX</span>
+      </div>
+      <div class="ui-flow-row">
+        <span class="uif-trigger">點擊任一影片卡</span>
+        <span class="uif-arrow">→</span>
+        <span class="uif-dest internal">播放頁 /video/{id}</span>
+        <span class="uif-note">導覽清單依影片 Primary Playlist 初始化，不沿用來源 playlist</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════ PLAYER ══ -->
+<section id="player">
+  <div class="sec-header">
+    <span class="sec-num">06</span>
+    <h2>單則影音播放頁</h2>
+  </div>
+
+  <div class="sec-meta">
+    <div class="sec-meta-item"><span class="meta-key">路由</span><span class="meta-val"><code>/video/{video_id}?playlist={playlist_id}</code>（playlist 為 optional query 參數）</span></div>
+    <div class="sec-meta-item"><span class="meta-key">角色</span><span class="meta-val">流量終點，承載播放與續看</span></div>
+  </div>
+
+  <div class="compare-grid mt16">
+    <div>
+      <div class="wireframe-label">DESKTOP 頁面結構</div>
+      <div class="player-demo">
+        <div style="padding:8px 16px;border-bottom:1px solid var(--border);font-size:14px;color:var(--text-mid);background:var(--bg2)">
+          Header + 快訊
+        </div>
+        <div style="padding:8px 16px;border-bottom:1px solid var(--border);background:rgba(107,114,128,0.08);font-size:14px;color:var(--text-dim);text-align:center;border-style:dashed;border-left:none;border-right:none">
+          廣告橫幅
+        </div>
+        <div class="player-demo-top">
+          <span>🎬 YouTube Iframe 播放器（autoplay muted）</span>
+        </div>
+        <div style="padding:12px 16px;border-bottom:1px solid var(--border);font-size:14px;color:var(--text-dim)">
+          麵包屑：<span style="color:var(--text-mid)">首頁 ›</span> <span style="color:var(--text-mid)">影音總覽 ›</span> <span style="color:var(--cyan)">TVBS每日熱搜榜（依Primary Playlist決定）›</span>
+        </div>
+        <div style="padding:12px 16px;border-bottom:1px solid var(--border)">
+          <strong style="font-size:14px">影片標題</strong>
+        </div>
+        <!-- playlist -->
+        <div class="plist-item">
+          <div class="plist-thumb">▷</div>
+          <div class="plist-info">
+            <strong style="color:var(--text)">影片 #1</strong>
+            <span>30分鐘前</span>
+          </div>
+          <span class="badge badge-dim">Play Icon ✓</span>
+        </div>
+        <div class="plist-item">
+          <div class="plist-thumb">▷</div>
+          <div class="plist-info">
+            <strong>影片 #2</strong>
+            <span>1小時前</span>
+          </div>
+          <span class="badge badge-dim">Play Icon ✓</span>
+        </div>
+        <div class="plist-item">
+          <div class="plist-thumb">▷</div>
+          <div class="plist-info">
+            <strong>影片 #3</strong>
+            <span>2小時前</span>
+          </div>
+          <span class="badge badge-dim">Play Icon ✓</span>
+        </div>
+        <div style="padding:8px 16px;font-size:14px;color:var(--text-dim);text-align:center">
+          … 共24則
+        </div>
+        <div style="padding:8px 16px;border-top:1px solid var(--border);font-size:14px;color:var(--text-dim);background:var(--bg2)">
+          Footer
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="wireframe-label">MOBILE 頁面結構</div>
+      <div class="player-demo">
+        <div style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:14px;color:var(--text-mid);background:var(--bg2)">
+          Header + 快訊
+        </div>
+        <div style="padding:6px 12px;border-bottom:1px solid var(--border);background:rgba(107,114,128,0.08);font-size:14px;color:var(--text-dim);text-align:center;border-style:dashed;border-top:none">
+          廣告橫幅
+        </div>
+        <div class="player-demo-top" style="aspect-ratio:16/7;flex-direction:column;gap:4px">
+          <span>🎬 播放器（全寬）</span>
+          <span style="font-size:10px;color:var(--text-dim)">不 sticky｜廣告 300×250 已佔首屏</span>
+        </div>
+        <div style="padding:10px 12px;border-bottom:1px solid var(--border);font-size:14px;color:var(--text-dim)">
+          麵包屑：首頁 &gt; 影音總覽 &gt; 熱搜榜
+        </div>
+        <div style="padding:10px 12px;border-bottom:1px solid var(--border)">
+          <strong style="font-size:14px">影片標題（單行顯示）</strong>
+        </div>
+        <div class="plist-item" style="padding:8px 12px">
+          <div class="plist-thumb" style="width:64px;height:36px">▷</div>
+          <div class="plist-info">
+            <strong style="font-size:14px;color:var(--text)">影片 #1</strong>
+            <span style="font-size:14px;color:var(--text-dim)">30分鐘前</span>
+          </div>
+          <span class="badge badge-dim">Play Icon ✓</span>
+        </div>
+        <div class="plist-item" style="padding:8px 12px">
+          <div class="plist-thumb" style="width:64px;height:36px">▷</div>
+          <div class="plist-info">
+            <strong style="font-size:14px">影片 #6</strong>
+            <span style="font-size:14px">Play Icon ✓</span>
+          </div>
+        </div>
+        <div style="padding:6px 12px;font-size:14px;color:var(--text-dim)">… 共24則 …</div>
+        <div style="padding:8px 12px;border-top:1px solid var(--border);font-size:14px;color:var(--text-dim);background:var(--bg2)">
+          Footer
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 麵包屑規則 + Autoplay 規則 並列 -->
+  <div class="compare-grid mt24">
+    <div class="card">
+      <div class="card-title">Canonical 與 SEO</div>
+      <ul style="font-size:14px">
+        <li>Canonical URL 只到 <code>video_id</code>，不帶 <code>playlist_id</code></li>
+        <li>避免同一影片因出現在不同 playlist 產生多個 canonical</li>
+        <li>BreadcrumbList 結構化資料：URL 帶有效 <code>playlist_id</code> 時包含第3層；無效或無 <code>playlist_id</code> 時只到「影音總覽」</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">麵包屑規則</div>
+      <ul style="font-size:14px">
+        <li>固定三層：首頁 › 影音總覽 › 列表頁</li>
+        <li>第3層顯示 URL 帶有效 <code>playlist_id</code> 時對應的列表頁名稱；無 <code>playlist_id</code> 或無效時不顯示第3層</li>
+        <li>第3層名稱套用字串過濾：移除 <code> │ TVBS新聞</code> 後綴與首尾 <code>【】</code></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Autoplay 規則（播放頁）</div>
+      <ul style="font-size:14px">
+        <li>由站內點擊影片進入 → 預設嘗試 <strong>autoplay muted</strong></li>
+        <li>外部直連或書籤進入 → <strong>不嘗試 autoplay</strong>，進入待播放狀態<span style="color:var(--text-dim);font-size:13px">（判斷方式由前端工程師決定）</span></li>
+        <li>有聲播放需使用者手動點擊音量控制（YT 原生控制列）</li>
+        <li>Autoplay 失敗 → 顯示 Overlay（Poster + Play Icon），參考第07節狀態機</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">播放器 Sticky 行為</div>
+      <ul style="font-size:14px">
+        <li><strong>Mobile</strong>：播放器不 sticky — 快訊下方廣告 300×250 已佔據首屏，無空間 sticky</li>
+        <li><strong>Desktop</strong>：播放器不 sticky，隨頁面向下滾動而消失</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── 播放頁情境示意 ── -->
+  <div style="margin-top:32px;margin-bottom:8px;font-size:11px;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase;font-weight:600">播放頁下方清單 — 情境示意</div>
+
+  <div class="callout mt16" style="font-size:14px;border-left-color:var(--blue);margin-bottom:24px">
+    <strong>通則：</strong>單則影音 URL 一律可正常進入播放頁。播放器與下方清單為獨立元件，互不影響。下方清單來源完全由 URL 的 <code>?playlist={playlist_id}</code> query 參數決定，與影片是否屬於該 playlist 無關。<code>playlist_id</code> 由後端排程跑完後寫入並固定。
+  </div>
+
+  <!-- 情境A -->
+  <div style="margin-bottom:24px">
+    <div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:12px">情境 A — 有效 playlist_id：下方顯示該 playlist 最新24則</div>
+    <div class="compare-grid">
+      <div>
+        <div class="wireframe-label">DESKTOP</div>
+        <div class="player-demo">
+          <div style="padding:6px 16px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-mid);background:var(--bg2)">Header + 快訊</div>
+          <div style="padding:4px 16px;border-bottom:1px solid var(--border);background:rgba(107,114,128,0.08);font-size:11px;color:var(--text-dim);text-align:center;border-style:dashed;border-left:none;border-right:none;min-height:24px;display:flex;align-items:center;justify-content:center">廣告 970×250</div>
+          <div class="player-demo-top" style="aspect-ratio:16/6"><span>🎬 播放器（正常播放）</span></div>
+          <div style="padding:8px 16px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-dim)">麵包屑：首頁 › 影音總覽 › <span style="color:var(--cyan)">熱搜榜</span></div>
+          <div style="padding:8px 16px;border-bottom:1px solid var(--border);font-size:13px"><strong>影片標題</strong></div>
+          <div style="padding:6px 16px;font-size:12px;color:var(--green)">▼ 有效 playlist_id → 該 playlist 最新24則</div>
+          <div class="plist-item"><div class="plist-thumb">▷</div><div class="plist-info"><strong>影片 #1</strong><span>30分鐘前</span></div></div>
+          <div class="plist-item"><div class="plist-thumb">▷</div><div class="plist-info"><strong>影片 #2</strong><span>1小時前</span></div></div>
+          <div style="padding:6px 16px;font-size:13px;color:var(--text-dim);text-align:center">… 共24則</div>
+          <div style="padding:6px 16px;border-top:1px solid var(--border);font-size:13px;color:var(--text-dim);background:var(--bg2)">Footer</div>
+        </div>
+      </div>
+      <div>
+        <div class="wireframe-label">MOBILE</div>
+        <div class="player-demo">
+          <div style="padding:6px 12px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-mid);background:var(--bg2)">Header + 快訊</div>
+          <div style="padding:4px 12px;border-bottom:1px solid var(--border);background:rgba(107,114,128,0.08);font-size:11px;color:var(--text-dim);text-align:center;border-style:dashed;border-top:none;min-height:24px;display:flex;align-items:center;justify-content:center">廣告 300×250</div>
+          <div class="player-demo-top" style="aspect-ratio:16/7" style="flex-direction:column;gap:4px"><span>🎬 播放器（全寬）</span><span style="font-size:10px;color:var(--text-dim)">不 sticky｜廣告 300×250 已佔首屏</span></div>
+          <div style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-dim)">麵包屑：首頁 › 影音總覽 › 熱搜榜</div>
+          <div style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:13px"><strong>影片標題</strong></div>
+          <div style="padding:6px 12px;font-size:12px;color:var(--green)">▼ 有效 playlist_id → 該 playlist 最新24則</div>
+          <div class="plist-item" style="padding:8px 12px"><div class="plist-thumb" style="width:60px;height:34px">▷</div><div class="plist-info"><strong style="font-size:13px">影片 #1</strong><span style="font-size:12px">30分鐘前</span></div></div>
+          <div class="plist-item" style="padding:8px 12px"><div class="plist-thumb" style="width:60px;height:34px">▷</div><div class="plist-info"><strong style="font-size:13px">影片 #2</strong><span style="font-size:12px">1小時前</span></div></div>
+          <div style="padding:6px 12px;font-size:13px;color:var(--text-dim)">… 共24則</div>
+          <div style="padding:6px 12px;border-top:1px solid var(--border);font-size:13px;color:var(--text-dim);background:var(--bg2)">Footer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 情境C/D -->
+  <div style="margin-bottom:24px">
+    <div style="font-size:13px;font-weight:700;color:var(--amber);margin-bottom:12px">情境 B/C/D — 無 playlist_id：Fallback 顯示四個 playlist 合併最新24則</div>
+    <div class="compare-grid">
+      <div>
+        <div class="wireframe-label">DESKTOP</div>
+        <div class="player-demo">
+          <div style="padding:6px 16px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-mid);background:var(--bg2)">Header + 快訊</div>
+          <div style="padding:4px 16px;border-bottom:1px solid var(--border);background:rgba(107,114,128,0.08);font-size:11px;color:var(--text-dim);text-align:center;border-style:dashed;border-left:none;border-right:none;min-height:24px;display:flex;align-items:center;justify-content:center">廣告 970×250</div>
+          <div class="player-demo-top" style="aspect-ratio:16/6"><span>🎬 播放器（正常播放）</span></div>
+          <div style="padding:8px 16px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-dim)">麵包屑：首頁 › 影音總覽</div>
+          <div style="padding:8px 16px;border-bottom:1px solid var(--border);font-size:13px"><strong>影片標題</strong></div>
+          <div style="padding:6px 16px;font-size:12px;color:var(--amber)">▼ 無 playlist_id → 四個 playlist 合併最新24則（published_at 降冪）</div>
+          <div class="plist-item"><div class="plist-thumb">▷</div><div class="plist-info"><strong>影片 #1（最新）</strong><span>5分鐘前</span></div></div>
+          <div class="plist-item"><div class="plist-thumb">▷</div><div class="plist-info"><strong>影片 #2</strong><span>12分鐘前</span></div></div>
+          <div style="padding:6px 16px;font-size:13px;color:var(--text-dim);text-align:center">… 共24則</div>
+          <div style="padding:6px 16px;border-top:1px solid var(--border);font-size:13px;color:var(--text-dim);background:var(--bg2)">Footer</div>
+        </div>
+      </div>
+      <div>
+        <div class="wireframe-label">MOBILE</div>
+        <div class="player-demo">
+          <div style="padding:6px 12px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-mid);background:var(--bg2)">Header + 快訊</div>
+          <div style="padding:4px 12px;border-bottom:1px solid var(--border);background:rgba(107,114,128,0.08);font-size:11px;color:var(--text-dim);text-align:center;border-style:dashed;border-top:none;min-height:24px;display:flex;align-items:center;justify-content:center">廣告 300×250</div>
+          <div class="player-demo-top" style="aspect-ratio:16/7" style="flex-direction:column;gap:4px"><span>🎬 播放器（全寬）</span><span style="font-size:10px;color:var(--text-dim)">不 sticky｜廣告 300×250 已佔首屏</span></div>
+          <div style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-dim)">麵包屑：首頁 › 影音總覽</div>
+          <div style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:13px"><strong>影片標題</strong></div>
+          <div style="padding:6px 12px;font-size:12px;color:var(--amber)">▼ 無 playlist_id → 四個 playlist 合併最新24則</div>
+          <div class="plist-item" style="padding:8px 12px"><div class="plist-thumb" style="width:60px;height:34px">▷</div><div class="plist-info"><strong style="font-size:13px">影片 #1（最新）</strong><span style="font-size:12px">5分鐘前</span></div></div>
+          <div class="plist-item" style="padding:8px 12px"><div class="plist-thumb" style="width:60px;height:34px">▷</div><div class="plist-info"><strong style="font-size:13px">影片 #2</strong><span style="font-size:12px">12分鐘前</span></div></div>
+          <div style="padding:6px 12px;font-size:13px;color:var(--text-dim)">… 共24則</div>
+          <div style="padding:6px 12px;border-top:1px solid var(--border);font-size:13px;color:var(--text-dim);background:var(--bg2)">Footer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 情境F：無效playlist_id -->
+  <div style="margin-bottom:24px">
+    <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:12px">情境 F — 無效 playlist_id（亂打或不存在）→ 下方清單區塊空白，不 render</div>
+    <div class="compare-grid">
+      <div>
+        <div class="wireframe-label">DESKTOP</div>
+        <div class="player-demo">
+          <div style="padding:6px 16px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-mid);background:var(--bg2)">Header + 快訊</div>
+          <div style="padding:4px 16px;border-bottom:1px solid var(--border);background:rgba(107,114,128,0.08);font-size:11px;color:var(--text-dim);text-align:center;border-style:dashed;border-left:none;border-right:none;min-height:24px;display:flex;align-items:center;justify-content:center">廣告 970×250</div>
+          <div class="player-demo-top" style="aspect-ratio:16/6"><span>🎬 播放器（正常播放）</span></div>
+          <div style="padding:8px 16px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-dim)">麵包屑：首頁 › 影音總覽（第3層不顯示）</div>
+          <div style="padding:8px 16px;border-bottom:1px solid var(--border);font-size:13px"><strong>影片標題</strong></div>
+          <div style="padding:16px;font-size:12px;color:var(--text-dim);text-align:center;border:1px dashed var(--border);margin:8px 16px;border-radius:4px">下方清單區塊空白（不 render）</div>
+          <div style="padding:6px 16px;border-top:1px solid var(--border);font-size:13px;color:var(--text-dim);background:var(--bg2)">Footer</div>
+        </div>
+      </div>
+      <div>
+        <div class="wireframe-label">MOBILE</div>
+        <div class="player-demo">
+          <div style="padding:6px 12px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-mid);background:var(--bg2)">Header + 快訊</div>
+          <div style="padding:4px 12px;border-bottom:1px solid var(--border);background:rgba(107,114,128,0.08);font-size:11px;color:var(--text-dim);text-align:center;border-style:dashed;border-top:none;min-height:24px;display:flex;align-items:center;justify-content:center">廣告 300×250</div>
+          <div class="player-demo-top" style="aspect-ratio:16/7;flex-direction:column;gap:4px"><span>🎬 播放器（全寬）</span><span style="font-size:10px;color:var(--text-dim)">不 sticky｜廣告 300×250 已佔首屏</span></div>
+          <div style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-dim)">麵包屑：首頁 › 影音總覽（第3層不顯示）</div>
+          <div style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:13px"><strong>影片標題</strong></div>
+          <div style="padding:12px;font-size:12px;color:var(--text-dim);text-align:center;border:1px dashed var(--border);margin:8px 12px;border-radius:4px">下方清單區塊空白（不 render）</div>
+          <div style="padding:6px 12px;border-top:1px solid var(--border);font-size:13px;color:var(--text-dim);background:var(--bg2)">Footer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 情境E -->
+  <div style="margin-bottom:32px">
+    <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:4px">情境 E — 影片失效（Private / Deleted）</div>
+    <div style="font-size:12px;color:var(--text-dim);margin-bottom:12px">顯示 YouTube 預設錯誤畫面，不加額外 UI 引導；下方清單依 playlist_id 有效性決定</div>
+    <div class="compare-grid">
+      <div>
+        <div class="wireframe-label">DESKTOP</div>
+        <div class="player-demo">
+          <div style="padding:6px 16px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-mid);background:var(--bg2)">Header + 快訊</div>
+          <div style="padding:4px 16px;border-bottom:1px solid var(--border);background:rgba(107,114,128,0.08);font-size:11px;color:var(--text-dim);text-align:center;border-style:dashed;border-left:none;border-right:none;min-height:24px;display:flex;align-items:center;justify-content:center">廣告 970×250</div>
+          <div class="player-demo-top" style="aspect-ratio:16/6;background:rgba(0,0,0,0.75);flex-direction:column;gap:8px">
+            <span style="color:var(--text-mid);font-size:13px">YouTube 預設錯誤畫面</span>
+            <span style="color:var(--text-dim);font-size:11px">不加額外 UI 引導</span>
+          </div>
+          <div style="padding:8px 16px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-dim)">麵包屑：首頁 › 影音總覽 › <span style="color:var(--cyan)">熱搜榜</span></div>
+          <div style="padding:8px 16px;border-bottom:1px solid var(--border);font-size:13px"><strong>影片標題</strong></div>
+          <div style="padding:6px 16px;font-size:12px;color:var(--text-dim)">▼ 清單（依情境A或C/D）— 點「播放下一則」取第一則</div>
+          <div class="plist-item" style="border-left:2px solid var(--red)"><div class="plist-thumb">▷</div><div class="plist-info"><strong>影片 #1</strong></div></div>
+          <div class="plist-item"><div class="plist-thumb">▷</div><div class="plist-info"><strong>影片 #2</strong><span></span></div></div>
+          <div style="padding:6px 16px;font-size:13px;color:var(--text-dim);text-align:center">… 共24則</div>
+          <div style="padding:6px 16px;border-top:1px solid var(--border);font-size:13px;color:var(--text-dim);background:var(--bg2)">Footer</div>
+        </div>
+      </div>
+      <div>
+        <div class="wireframe-label">MOBILE</div>
+        <div class="player-demo">
+          <div style="padding:6px 12px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-mid);background:var(--bg2)">Header + 快訊</div>
+          <div style="padding:4px 12px;border-bottom:1px solid var(--border);background:rgba(107,114,128,0.08);font-size:11px;color:var(--text-dim);text-align:center;border-style:dashed;border-top:none;min-height:24px;display:flex;align-items:center;justify-content:center">廣告 300×250</div>
+          <div class="player-demo-top" style="aspect-ratio:16/7;background:rgba(0,0,0,0.75);flex-direction:column;gap:8px">
+            <span style="color:var(--text-mid);font-size:13px">YouTube 預設錯誤畫面</span>
+            <span style="color:var(--text-dim);font-size:11px">不加額外 UI 引導</span>
+          </div>
+          <div style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-dim)">麵包屑：首頁 › 影音總覽 › 熱搜榜</div>
+          <div style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:13px"><strong>影片標題</strong></div>
+          <div style="padding:6px 12px;font-size:12px;color:var(--text-dim)">▼ 清單依 playlist_id 有效性決定</div>
+          <div class="plist-item" style="padding:8px 12px;border-left:2px solid var(--red)"><div class="plist-thumb" style="width:60px;height:34px">▷</div><div class="plist-info"><strong style="font-size:13px">影片 #1</strong></div></div>
+          <div class="plist-item" style="padding:8px 12px"><div class="plist-thumb" style="width:60px;height:34px">▷</div><div class="plist-info"><strong style="font-size:13px">影片 #2</strong></div></div>
+          <div style="padding:6px 12px;font-size:13px;color:var(--text-dim)">… 共24則</div>
+          <div style="padding:6px 12px;border-top:1px solid var(--border);font-size:13px;color:var(--text-dim);background:var(--bg2)">Footer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui-flow">
+    <div class="ui-flow-label">UI Flow — 點擊行為</div>
+        <span class="uif-arrow">→</span>
+        <span class="uif-dest internal">首頁 /</span>
+      </div>
+      <div class="ui-flow-row">
+        <span class="uif-trigger">麵包屑 第2層「影音總覽」</span>
+        <span class="uif-arrow">→</span>
+        <span class="uif-dest internal">Hub /video</span>
+      </div>
+      <div class="ui-flow-row">
+        <span class="uif-trigger">麵包屑 第3層（Playlist名稱）</span>
+        <span class="uif-arrow">→</span>
+        <span class="uif-dest internal">Playlist 列表頁 /video/playlist/{id}</span>
+        <span class="uif-note">依 Primary Playlist，不隨來源入口變動</span>
+      </div>
+      <div class="ui-flow-row">
+        <span class="uif-trigger">清單任一影片</span>
+        <span class="uif-arrow">→</span>
+        <span class="uif-dest internal">整頁 reload → 播放頁 /video/{id}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════ AUTOPLAY STATE ══ -->
+<section id="autoplay">
+  <div class="sec-header">
+    <span class="sec-num">08</span>
+    <h2>播放器狀態機</h2>
+  </div>
+
+  <div class="sec-meta">
+    <div class="sec-meta-item"><span class="meta-key">適用範圍</span><span class="meta-val">影音總覽頁 Hero Live、單則影音播放頁</span></div>
+  </div>
+
+  <div class="mt16">
+    <div class="state-grid">
+      <div class="state-cell">
+        <h5 style="color:var(--text-dim)">STATE 1</h5>
+        <strong style="font-size:14px">Idle</strong>
+        <p style="font-size:14px;margin-top:6px">進頁，尚未播放</p>
+        <div style="margin-top:8px"><span class="badge badge-amber">顯示 Overlay</span></div>
+        <div style="margin-top:4px;font-size:14px;color:var(--text-dim)">Poster + Play Icon</div>
+      </div>
+      <div class="state-cell">
+        <h5 style="color:var(--text-dim)">STATE 2</h5>
+        <strong style="font-size:14px">Autoplay Attempt</strong>
+        <p style="font-size:14px;margin-top:6px">觸發 autoplay(muted)</p>
+        <div style="margin-top:8px"><span class="badge badge-amber">仍顯示 Overlay</span></div>
+        <div style="margin-top:4px;font-size:14px;color:var(--text-dim)">避免黑畫面閃爍</div>
+      </div>
+      <div class="state-cell">
+        <h5 style="color:var(--green)">STATE 3</h5>
+        <strong style="font-size:14px">Playing</strong>
+        <p style="font-size:14px;margin-top:6px">YT state = PLAYING</p>
+        <div style="margin-top:8px"><span class="badge badge-green">隱藏 Overlay</span></div>
+        <div style="margin-top:4px;font-size:14px;color:var(--text-dim)">YouTube 控制列接管</div>
+      </div>
+      <div class="state-cell">
+        <h5 style="color:var(--red)">STATE 4</h5>
+        <strong style="font-size:14px">Blocked / Failed</strong>
+        <p style="font-size:14px;margin-top:6px">autoplay 被阻擋或超時</p>
+        <div style="margin-top:8px"><span class="badge badge-red">顯示 Overlay</span></div>
+        <div style="margin-top:4px;font-size:14px;color:var(--text-dim)">等待使用者點擊</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlay 規格 -->
+  <div class="compare-grid mt24">
+    <div>
+      <h3>Overlay 組成（最小版本）</h3>
+      <div class="card mt16">
+        <ul style="font-size:14px">
+          <li><strong>影片封面圖（Poster）</strong> 作為背景</li>
+          <li><strong>置中 Play Icon</strong>（可點擊）</li>
+          <li>覆蓋範圍：播放器可視區</li>
+          <li>僅未開始播放時顯示</li>
+        </ul>
+        <div class="callout red" style="margin-top:12px">
+          <b>Overlay 是站內自己的 DOM</b><br>
+          位於 YouTube Iframe 外部，不修改 iframe 內部。<br>
+          點擊後呼叫 YouTube API <code>playVideo()</code> 啟動播放。
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3>Autoplay 核心規則</h3>
+      <div class="tbl-wrap mt16">
+        <table>
+          <tbody>
+            <tr>
+              <td>Autoplay 一律 <strong>muted</strong></td>
+              <td><span class="badge badge-red">規格定義</span></td>
+            </tr>
+            <tr>
+              <td>有聲播放需 <strong>使用者手動觸發</strong></td>
+              <td><span class="badge badge-red">規格定義</span></td>
+            </tr>
+            <tr>
+              <td>外部直連進入播放頁，不嘗試 autoplay</td>
+              <td><span class="badge badge-amber">例外情境</span></td>
+            </tr>
+            <tr>
+              <td>需避免出現<strong>黑畫面無提示</strong>狀態</td>
+              <td><span class="badge badge-amber">建議作法</span></td>
+            </tr>
+            <tr>
+              <td>播放成功後<strong>移除 Overlay</strong></td>
+              <td><span class="badge badge-blue">預期行為</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════ FALLBACK ══ -->
+<section id="fallback">
+  <div class="sec-header">
+    <span class="sec-num">09</span>
+    <h2>錯誤處理與降級機制</h2>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-title">首頁區塊 API 失敗</div>
+      <p style="margin-bottom:8px">受影響：News Topics, News Boards, Category Focus, Video Section</p>
+      <strong style="color:var(--green);font-size:14px">→ 直接隱藏（display:none）</strong>
+      <p>不顯示錯誤訊息，版面自動塌陷</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Taboola / Insider 載入失敗</div>
+      <p>Script 失敗 / API 無回應 / AdBlock 阻擋</p>
+      <strong style="color:var(--green);font-size:14px">→ 直接隱藏容器，不留白</strong>
+    </div>
+    <div class="card">
+      <div class="card-title">縮圖失效（YouTube）</div>
+      <div class="callout" style="margin-bottom:10px;font-size:14px">
+        <b>Live 直播區塊</b>：使用 Live 專屬預設圖片，不走下方降級邏輯
+      </div>
+      <div style="font-size:14px;color:var(--text-mid);margin-bottom:8px">其他區塊（VOD 卡片）降級順序：</div>
+      <div class="code" style="margin-top:4px;font-size:14px">
+Level 1: 影片縮圖（maxresdefault / hqdefault）<br>
+Level 2: Default image 帶 Play Button
+      </div>
+      <p style="margin-top:8px;font-size:14px">監聽 img onError 事件觸發替換</p>
+    </div>
+    <div class="card">
+      <div class="card-title">影片失效（Private / Deleted）</div>
+      <p>監聽 YouTube IFrame API onError（Code: 100, 101, 150）</p>
+      <strong style="color:var(--green);font-size:14px">→ 顯示 YouTube 預設錯誤畫面，不加額外 UI 引導</strong>
+      <p style="margin-top:8px;font-size:13px;color:var(--text-dim)">下方清單邏輯不變，依 URL 的 <code>playlist_id</code> 有效性決定顯示內容。</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Hub Playlist API 失敗</div>
+      <strong style="color:var(--green);font-size:14px">→ 隱藏該 Playlist 區塊（1大3小整組隱藏）</strong>
+    </div>
+    <div class="card">
+      <div class="card-title">播放頁 Playlist API 失敗</div>
+      <strong style="color:var(--green);font-size:14px">→ 僅顯示播放器與影片資訊</strong>
+      <p>隱藏下方24則導覽清單</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════ FAQ ══ -->
+<section id="faq">
+  <div class="sec-header">
+    <span class="sec-num">10</span>
+    <h2>重點提醒</h2>
+  </div>
+  <div class="sec-meta">
+    <div class="sec-meta-item"><span class="meta-key">用途</span><span class="meta-val">說明會前預習 / 說明會中即時查閱 / 說明會後確認</span></div>
+  </div>
+
+  <h3 style="margin-bottom:16px;margin-top:8px">⚠ 容易混淆的地方</h3>
+  <div class="tbl-wrap">
+    <table>
+      <tbody>
+        <tr>
+          <td style="width:80px;white-space:nowrap"><span class="badge badge-blue">FE</span></td>
+          <td><strong>首頁影音區塊的 Play Button 是導流，不是播放</strong><br>點擊後跳轉至 <code>/video/{video_id}?playlist={playlist_id}</code>，首頁不支援頁內播放也不做 Autoplay</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">FE</span></td>
+          <td><strong>新聞看板 Slot 1–4 行為一致，LIVE tag 只是視覺標示</strong><br>所有 Slot 皆為 CMS 圖片＋連結。CMS 設定直播 URL 時，前端在該 Slot 左上角加上紅色 LIVE tag，點擊行為不變，導向 CMS 設定的連結</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">FE</span> <span class="badge badge-green">BE</span></td>
+          <td><strong>Playlist 列表頁的 playlist_id 會帶進播放頁</strong><br>從列表頁點入時前端帶入 <code>?playlist={id}</code>，播放頁下方清單依此顯示。直接輸入或舊連結無此參數時，顯示四列表合併最新24則</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">FE</span></td>
+          <td><strong>Overlay 是站內 DOM，不在 YouTube iframe 內</strong><br>點擊後透過 IFrame Player API 呼叫 <code>playVideo()</code>，播放成功才隱藏 Overlay</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-green">BE</span></td>
+          <td><strong>即時新聞後端只回 8 則，廣告洞位由前端插入</strong><br>前端在第 3、第 8 個位置插入廣告，不影響後端數量與排重邏輯</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="margin-bottom:16px;margin-top:40px">🔴 容易在實作中被忽略</h3>
+  <div class="tbl-wrap">
+    <table>
+      <tbody>
+        <tr>
+          <td style="width:80px;white-space:nowrap"><span class="badge badge-green">BE</span></td>
+          <td><strong>Category Focus 補位：任何情況下不得補入已在 Carousel 的新聞</strong><br>補位順序：① 同分類未使用 → ② 已在 Realtime News 的可補。各分類補齊至 4 則</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">FE</span></td>
+          <td><strong>Autoplay 失敗期間 Overlay 必須持續顯示，不能提前移除</strong><br>直到 YouTube Player state 進入 PLAYING 才隱藏，Attempt 階段也要保持顯示</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">FE</span></td>
+          <td><strong>Playlist 列表頁 Tab 切換是整頁跳轉，MVP 不使用 AJAX</strong><br>點擊 Tab 後導向 <code>/playlist/{id}</code>，整頁重新載入，不需前端路由</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer style="text-align:center;padding:40px 24px;color:var(--text-dim);font-size:14px;border-top:1px solid var(--border)">
+  TVBS新聞網改版 · Milestone 3 · 規格說明會素材 · V5 (URL-Driven Playlist)
+</footer>
+
+<script>
+// Nav scrollIntoView
+document.querySelectorAll('nav a[data-target]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.getElementById(a.dataset.target);
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// Sticky nav active state
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav a[data-target]');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(a => a.classList.remove('active'));
+      const active = document.querySelector(`nav a[data-target="${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+
+// FAQ accordion
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.closest('.faq-item');
+    item.classList.toggle('open');
+  });
+});
+</script>
+</body>
+</html>
