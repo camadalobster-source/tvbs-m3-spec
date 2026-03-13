@@ -627,7 +627,7 @@
   <h1>TVBS News Website Redesign<br>Development Specification</h1>
   <p class="hero-sub">Homepage · Video Hub · Playlist Page · Single Video Player Page</p>
   <div class="hero-meta">
-    <span><b>Version</b> V5 (URL-Driven Playlist)</span>
+    <span><b>Version</b> V6 (Route & Scenario Update)</span>
     <span><b>Scope</b> Homepage + Video System</span>
     <span><b>Status</b> M3 In Development</span>
   </div>
@@ -655,7 +655,7 @@
       <div class="code" style="margin-top:0">
         <span class="key">/</span>                <span class="cmt">← Homepage</span><br>
         <span class="key">/video</span>      <span class="cmt">← Video Hub</span><br>
-        <span class="key">/video/playlist/<span class="val">A</span></span>  <span class="cmt">← Playlist Page</span><br>
+        <span class="key">/video?playlist=<span class="val">{playlist_id}</span></span>  <span class="cmt">← Playlist Page</span><br>
         <span class="key">/video/<span class="val">{video_id}</span></span><span class="key">?playlist=<span class="val">{playlist_id}</span></span> <span class="cmt">← Single Video Player (playlist optional)</span>
       </div>
     </div>
@@ -1268,7 +1268,7 @@ Article #8</div>
         </div>
         <div style="flex:1;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);border-radius:8px;padding:12px;text-align:center">
           <div style="font-weight:600;color:var(--blue);font-size:14px">Playlist Page</div>
-          <div style="font-size:12px;color:var(--text-dim);margin-top:2px">/video/playlist/{id}</div>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:2px">/video?playlist={playlist_id}</div>
         </div>
         <div style="display:flex;flex-direction:column;align-items:center;padding:0 8px;flex-shrink:0">
           <div style="font-size:12px;color:var(--text-dim);margin-bottom:2px">Tap video card</div>
@@ -1364,10 +1364,19 @@ Article #8</div>
     </div>
     <div class="callout mt16" style="font-size:14px;border-left-color:var(--amber)">
       <strong>Player Page Navigation List Display Rules:</strong>
-      <ul style="margin-top:8px">
-        <li><strong>Mapping exists</strong>: Show the current 24 items from the Primary Playlist, regardless of whether the current video is in the list</li>
-        <li><strong>Mapping does not exist</strong> (video has rolled out of all Playlist current 24-item lists): Show the latest 24 videos across all Playlists sorted by published date descending as fallback — do not leave blank</li>
-      </ul>
+      <table style="margin-top:8px;width:100%;font-size:13px;border-collapse:collapse">
+        <thead><tr style="border-bottom:1px solid var(--border)">
+          <th style="text-align:left;padding:4px 8px;color:var(--text-dim)">Scenario</th>
+          <th style="text-align:left;padding:4px 8px;color:var(--text-dim)">Condition</th>
+          <th style="text-align:left;padding:4px 8px;color:var(--text-dim)">Navigation List</th>
+        </tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px"><strong style="color:var(--green)">A</strong></td><td style="padding:4px 8px">URL has a valid playlist_id</td><td style="padding:4px 8px">That playlist's latest 24 items</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px"><strong style="color:var(--amber)">B</strong></td><td style="padding:4px 8px">No playlist_id (old link, external, manual removal)</td><td style="padding:4px 8px">Merge all 4 playlists, latest 24 by published_at desc</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px"><strong style="color:var(--red)">C</strong></td><td style="padding:4px 8px">Invalid playlist_id (malformed or non-existent)</td><td style="padding:4px 8px">Empty — block not rendered</td></tr>
+          <tr><td style="padding:4px 8px"><strong style="color:var(--red)">D</strong></td><td style="padding:4px 8px">Video unavailable (Private / Deleted)</td><td style="padding:4px 8px">Same logic as A/B/C based on playlist_id validity</td></tr>
+        </tbody>
+      </table>
       <p style="margin-top:8px;color:var(--text-dim);font-size:13px">※ Playlist display order is determined by the news department. Hardcoded in MVP stage — changes require a development request.</p>
     </div>
   </div>
@@ -1427,7 +1436,7 @@ Article #8</div>
           </div>
         </div>
         <div class="wf-row" style="margin-top:4px">
-          <div class="wf-block full amber" style="font-size:14px;padding:6px">[ More Video News › ] → /video/playlist/A</div>
+          <div class="wf-block full amber" style="font-size:14px;padding:6px">[ More Video News › ] → /video?playlist={playlist_id}</div>
         </div>
         <div class="wf-row mt16">
           <div class="wf-block full" style="font-size:14px;border-style:dashed">Playlist B (same structure) ｜ [ More Video News › ]</div>
@@ -1519,7 +1528,7 @@ Article #8</div>
       <div class="ui-flow-row">
         <span class="uif-trigger">"More Video News" button</span>
         <span class="uif-arrow">→</span>
-        <span class="uif-dest internal">Playlist Page /video/playlist/{id}</span>
+        <span class="uif-dest internal">Playlist Page /video?playlist={playlist_id}</span>
       </div>
 
       <div class="ui-flow-row">
@@ -1540,7 +1549,7 @@ Article #8</div>
   </div>
 
   <div class="sec-meta">
-    <div class="sec-meta-item"><span class="meta-key">Route</span><span class="meta-val"><code>/video/playlist/{playlist_id}</code></span></div>
+    <div class="sec-meta-item"><span class="meta-key">Route</span><span class="meta-val"><code>/video?playlist={playlist_id}</code></span></div>
     <div class="sec-meta-item"><span class="meta-key">Role</span><span class="meta-val">Navigation node, video selection entry</span></div>
   </div>
 
@@ -1830,6 +1839,14 @@ Article #8</div>
       </ul>
     </div>
     <div class="card">
+      <div class="card-title">Playback End Behaviour</div>
+      <ul style="font-size:14px">
+        <li><strong>No Autoplay Next</strong> — the system does not auto-advance to the next video</li>
+        <li>When a video ends, playback stops at the final frame</li>
+        <li>Users must manually tap a video in the navigation list to continue</li>
+      </ul>
+    </div>
+    <div class="card">
       <div class="card-title">Player Sticky Behaviour</div>
       <ul style="font-size:14px">
         <li><strong>Mobile</strong>: Player is not sticky — ad 300×250 below Newsflash already fills the first screen, leaving no room for sticky behaviour</li>
@@ -1884,7 +1901,7 @@ Article #8</div>
 
   <!-- Scenario C/D -->
   <div style="margin-bottom:24px">
-    <div style="font-size:13px;font-weight:700;color:var(--amber);margin-bottom:12px">Scenario B/C/D — No playlist_id: Fallback — merge all 4 playlists, show latest 24</div>
+    <div style="font-size:13px;font-weight:700;color:var(--amber);margin-bottom:12px">Scenario B — No playlist_id: Fallback — merge all 4 playlists, show latest 24</div>
     <div class="compare-grid">
       <div>
         <div class="wireframe-label">DESKTOP</div>
@@ -1894,7 +1911,7 @@ Article #8</div>
           <div class="player-demo-top" style="aspect-ratio:16/6"><span>🎬 Player (playing normally)</span></div>
           <div style="padding:8px 16px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-dim)">Breadcrumb: Homepage › Video Hub</div>
           <div style="padding:8px 16px;border-bottom:1px solid var(--border);font-size:13px"><strong>Video Title</strong></div>
-          <div style="padding:6px 16px;font-size:12px;color:var(--amber)">▼ No playlist_id → merge all 4 playlists, latest 24 (published_at desc)</div>
+          <div style="padding:6px 16px;font-size:12px;color:var(--amber)">▼ Scenario B: No playlist_id → merge all 4 playlists, latest 24 (published_at desc)</div>
           <div class="plist-item"><div class="plist-thumb">▷</div><div class="plist-info"><strong>Video #1 (latest)</strong><span>5 min ago</span></div></div>
           <div class="plist-item"><div class="plist-thumb">▷</div><div class="plist-info"><strong>Video #2</strong><span>12 min ago</span></div></div>
           <div style="padding:6px 16px;font-size:13px;color:var(--text-dim);text-align:center">… 24 items total</div>
@@ -1909,7 +1926,7 @@ Article #8</div>
           <div class="player-demo-top" style="aspect-ratio:16/7" style="flex-direction:column;gap:4px"><span>🎬 Player (full width)</span><span style="font-size:10px;color:var(--text-dim)">Not sticky | Ad 300×250 fills first screen</span></div>
           <div style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-dim)">Breadcrumb: Homepage › Video Hub</div>
           <div style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:13px"><strong>Video Title</strong></div>
-          <div style="padding:6px 12px;font-size:12px;color:var(--amber)">▼ No playlist_id → merge all 4 playlists, latest 24</div>
+          <div style="padding:6px 12px;font-size:12px;color:var(--amber)">▼ Scenario B: merge all 4 playlists, latest 24</div>
           <div class="plist-item" style="padding:8px 12px"><div class="plist-thumb" style="width:60px;height:34px">▷</div><div class="plist-info"><strong style="font-size:13px">Video #1 (latest)</strong><span style="font-size:12px">5 min ago</span></div></div>
           <div class="plist-item" style="padding:8px 12px"><div class="plist-thumb" style="width:60px;height:34px">▷</div><div class="plist-info"><strong style="font-size:13px">Video #2</strong><span style="font-size:12px">12 min ago</span></div></div>
           <div style="padding:6px 12px;font-size:13px;color:var(--text-dim)">… 24 items total</div>
@@ -1921,7 +1938,7 @@ Article #8</div>
 
   <!-- Scenario F: Invalid playlist_id -->
   <div style="margin-bottom:24px">
-    <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:12px">Scenario F — Invalid playlist_id (malformed or non-existent) → Navigation list block is empty, not rendered</div>
+    <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:12px">Scenario C — Invalid playlist_id (malformed or non-existent) → Navigation list block is empty, not rendered</div>
     <div class="compare-grid">
       <div>
         <div class="wireframe-label">DESKTOP</div>
@@ -1952,7 +1969,7 @@ Article #8</div>
 
   <!-- Scenario E -->
   <div style="margin-bottom:32px">
-    <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:4px">Scenario E — Video Unavailable (Private / Deleted)</div>
+    <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:4px">Scenario D — Video Unavailable (Private / Deleted)</div>
     <div style="font-size:12px;color:var(--text-dim);margin-bottom:12px">YouTube default error screen is shown. No additional UI guidance. Navigation list follows playlist_id validity rules.</div>
     <div class="compare-grid">
       <div>
@@ -2007,7 +2024,7 @@ Article #8</div>
       <div class="ui-flow-row">
         <span class="uif-trigger">Breadcrumb Level 3 (Playlist name)</span>
         <span class="uif-arrow">→</span>
-        <span class="uif-dest internal">Playlist Page /video/playlist/{id}</span>
+        <span class="uif-dest internal">Playlist Page /video?playlist={playlist_id}</span>
         <span class="uif-note">Based on Primary Playlist — does not change based on entry point</span>
       </div>
       <div class="ui-flow-row">
@@ -2231,7 +2248,7 @@ Level 2: Default image with Play Button
 </section>
 
 <footer style="text-align:center;padding:40px 24px;color:var(--text-dim);font-size:14px;border-top:1px solid var(--border)">
-  TVBS News Website Redesign · Milestone 3 · Dev Spec Review · V5 (URL-Driven Playlist)
+  TVBS News Website Redesign · Milestone 3 · Dev Spec Review · V6 (Route & Scenario Update)
 </footer>
 
 <script>

@@ -747,7 +747,7 @@
   <h1>TVBS 新聞網改版<br>開發規格說明</h1>
   <p class="hero-sub">首頁 · 影音總覽頁 · 播放清單頁 · 單則影音播放頁</p>
   <div class="hero-meta">
-    <span><b>版本</b> V5 (URL-Driven Playlist)</span>
+    <span><b>版本</b> V6 (Route & Scenario Update)</span>
     <span><b>範圍</b> 首頁 + 影音系統</span>
     <span><b>狀態</b> M3 開發中</span>
   </div>
@@ -775,7 +775,7 @@
       <div class="code" style="margin-top:0">
         <span class="key">/</span>                <span class="cmt">← 首頁</span><br>
         <span class="key">/video</span>      <span class="cmt">← 影音總覽 (Hub)</span><br>
-        <span class="key">/video/playlist/<span class="val">A</span></span>  <span class="cmt">← Playlist列表</span><br>
+        <span class="key">/video?playlist=<span class="val">{playlist_id}</span></span>  <span class="cmt">← Playlist列表</span><br>
         <span class="key">/video/<span class="val">{video_id}</span></span><span class="key">?playlist=<span class="val">{playlist_id}</span></span> <span class="cmt">← 單則播放頁（playlist 為 optional）</span>
       </div>
     </div>
@@ -1384,7 +1384,7 @@
         </div>
         <div style="flex:1;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);border-radius:8px;padding:12px;text-align:center">
           <div style="font-weight:600;color:var(--blue);font-size:14px">Playlist 列表頁</div>
-          <div style="font-size:12px;color:var(--text-dim);margin-top:2px">/video/playlist/{id}</div>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:2px">/video?playlist={playlist_id}</div>
         </div>
         <div style="display:flex;flex-direction:column;align-items:center;padding:0 8px;flex-shrink:0">
           <div style="font-size:12px;color:var(--text-dim);margin-bottom:2px">點擊影片卡</div>
@@ -1483,11 +1483,19 @@
     </div>
     <div class="callout mt16" style="font-size:14px;border-left-color:var(--amber)">
       <strong>播放頁導覽清單顯示規則：</strong>
-      <ul style="margin-top:8px">
-        <li><strong>有效 playlist_id</strong>：顯示該 playlist 當下最新24則（與影片是否在其中無關）</li>
-        <li><strong>無 playlist_id</strong>：四個 playlist 合併依 <code>published_at</code> 降冪取最新24則</li>
-        <li><strong>無效 playlist_id</strong>：下方清單區塊空白，不 render</li>
-      </ul>
+      <table style="margin-top:8px;width:100%;font-size:13px;border-collapse:collapse">
+        <thead><tr style="border-bottom:1px solid var(--border)">
+          <th style="text-align:left;padding:4px 8px;color:var(--text-dim)">情境</th>
+          <th style="text-align:left;padding:4px 8px;color:var(--text-dim)">條件</th>
+          <th style="text-align:left;padding:4px 8px;color:var(--text-dim)">下方清單</th>
+        </tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px"><strong style="color:var(--green)">A</strong></td><td style="padding:4px 8px">URL 帶有效 playlist_id</td><td style="padding:4px 8px">該 playlist 當下最新24則</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px"><strong style="color:var(--amber)">B</strong></td><td style="padding:4px 8px">無 playlist_id（舊連結、外部直連）</td><td style="padding:4px 8px">四個 playlist 合併，published_at 降冪最新24則</td></tr>
+          <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 8px"><strong style="color:var(--red)">C</strong></td><td style="padding:4px 8px">無效 playlist_id（亂打或不存在）</td><td style="padding:4px 8px">空白，不 render</td></tr>
+          <tr><td style="padding:4px 8px"><strong style="color:var(--red)">D</strong></td><td style="padding:4px 8px">影片失效（Private / Deleted）</td><td style="padding:4px 8px">邏輯不變，依 playlist_id 有效性決定（同 A/B/C）</td></tr>
+        </tbody>
+      </table>
       <p style="margin-top:8px;color:var(--text-dim);font-size:13px">※ Playlist 顯示順序由新聞部指定，MVP 階段後端 hardcode，調整需走開發流程。</p>
     </div>
   </div>
@@ -1547,7 +1555,7 @@
           </div>
         </div>
         <div class="wf-row" style="margin-top:4px">
-          <div class="wf-block full amber" style="font-size:14px;padding:6px">[ 更多影音新聞 › ] → /video/playlist/A</div>
+          <div class="wf-block full amber" style="font-size:14px;padding:6px">[ 更多影音新聞 › ] → /video?playlist={playlist_id}</div>
         </div>
         <div class="wf-row mt16">
           <div class="wf-block full" style="font-size:14px;border-style:dashed">Playlist B（同上結構）｜ [ 更多影音新聞 › ]</div>
@@ -1638,7 +1646,7 @@
       <div class="ui-flow-row">
         <span class="uif-trigger">「更多影音新聞」按鈕</span>
         <span class="uif-arrow">→</span>
-        <span class="uif-dest internal">Playlist 列表頁 /video/playlist/{id}</span>
+        <span class="uif-dest internal">Playlist 列表頁 /video?playlist={playlist_id}</span>
       </div>
       <div class="ui-flow-row">
         <span class="uif-trigger">Hero Live</span>
@@ -1658,7 +1666,7 @@
   </div>
 
   <div class="sec-meta">
-    <div class="sec-meta-item"><span class="meta-key">路由</span><span class="meta-val"><code>/video/playlist/{playlist_id}</code></span></div>
+    <div class="sec-meta-item"><span class="meta-key">路由</span><span class="meta-val"><code>/video?playlist={playlist_id}</code></span></div>
     <div class="sec-meta-item"><span class="meta-key">角色</span><span class="meta-val">導覽節點，選片入口</span></div>
   </div>
 
@@ -1955,6 +1963,14 @@
       </ul>
     </div>
     <div class="card">
+      <div class="card-title">播放結束行為</div>
+      <ul style="font-size:14px">
+        <li>本系統<strong>不提供自動播放下一則</strong>（No Autoplay Next）</li>
+        <li>影片播放結束後，停止於結尾畫面，不自動跳轉</li>
+        <li>使用者需透過下方導覽清單手動點擊下一則</li>
+      </ul>
+    </div>
+    <div class="card">
       <div class="card-title">播放器 Sticky 行為</div>
       <ul style="font-size:14px">
         <li><strong>Mobile</strong>：播放器不 sticky — 快訊下方廣告 300×250 已佔據首屏，無空間 sticky</li>
@@ -2009,7 +2025,7 @@
 
   <!-- 情境C/D -->
   <div style="margin-bottom:24px">
-    <div style="font-size:13px;font-weight:700;color:var(--amber);margin-bottom:12px">情境 B/C/D — 無 playlist_id：Fallback 顯示四個 playlist 合併最新24則</div>
+    <div style="font-size:13px;font-weight:700;color:var(--amber);margin-bottom:12px">情境 B — 無 playlist_id：Fallback 顯示四個 playlist 合併最新24則</div>
     <div class="compare-grid">
       <div>
         <div class="wireframe-label">DESKTOP</div>
@@ -2019,7 +2035,7 @@
           <div class="player-demo-top" style="aspect-ratio:16/6"><span>🎬 播放器（正常播放）</span></div>
           <div style="padding:8px 16px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-dim)">麵包屑：首頁 › 影音總覽</div>
           <div style="padding:8px 16px;border-bottom:1px solid var(--border);font-size:13px"><strong>影片標題</strong></div>
-          <div style="padding:6px 16px;font-size:12px;color:var(--amber)">▼ 無 playlist_id → 四個 playlist 合併最新24則（published_at 降冪）</div>
+          <div style="padding:6px 16px;font-size:12px;color:var(--amber)">▼ 情境 B：無 playlist_id → 四個 playlist 合併最新24則（published_at 降冪）</div>
           <div class="plist-item"><div class="plist-thumb">▷</div><div class="plist-info"><strong>影片 #1（最新）</strong><span>5分鐘前</span></div></div>
           <div class="plist-item"><div class="plist-thumb">▷</div><div class="plist-info"><strong>影片 #2</strong><span>12分鐘前</span></div></div>
           <div style="padding:6px 16px;font-size:13px;color:var(--text-dim);text-align:center">… 共24則</div>
@@ -2034,7 +2050,7 @@
           <div class="player-demo-top" style="aspect-ratio:16/7" style="flex-direction:column;gap:4px"><span>🎬 播放器（全寬）</span><span style="font-size:10px;color:var(--text-dim)">不 sticky｜廣告 300×250 已佔首屏</span></div>
           <div style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-dim)">麵包屑：首頁 › 影音總覽</div>
           <div style="padding:8px 12px;border-bottom:1px solid var(--border);font-size:13px"><strong>影片標題</strong></div>
-          <div style="padding:6px 12px;font-size:12px;color:var(--amber)">▼ 無 playlist_id → 四個 playlist 合併最新24則</div>
+          <div style="padding:6px 12px;font-size:12px;color:var(--amber)">▼ 情境 B：無 playlist_id → 四個 playlist 合併最新24則</div>
           <div class="plist-item" style="padding:8px 12px"><div class="plist-thumb" style="width:60px;height:34px">▷</div><div class="plist-info"><strong style="font-size:13px">影片 #1（最新）</strong><span style="font-size:12px">5分鐘前</span></div></div>
           <div class="plist-item" style="padding:8px 12px"><div class="plist-thumb" style="width:60px;height:34px">▷</div><div class="plist-info"><strong style="font-size:13px">影片 #2</strong><span style="font-size:12px">12分鐘前</span></div></div>
           <div style="padding:6px 12px;font-size:13px;color:var(--text-dim)">… 共24則</div>
@@ -2046,7 +2062,7 @@
 
   <!-- 情境F：無效playlist_id -->
   <div style="margin-bottom:24px">
-    <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:12px">情境 F — 無效 playlist_id（亂打或不存在）→ 下方清單區塊空白，不 render</div>
+    <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:12px">情境 C — 無效 playlist_id（亂打或不存在）→ 下方清單區塊空白，不 render</div>
     <div class="compare-grid">
       <div>
         <div class="wireframe-label">DESKTOP</div>
@@ -2077,7 +2093,7 @@
 
   <!-- 情境E -->
   <div style="margin-bottom:32px">
-    <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:4px">情境 E — 影片失效（Private / Deleted）</div>
+    <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:4px">情境 D — 影片失效（Private / Deleted）</div>
     <div style="font-size:12px;color:var(--text-dim);margin-bottom:12px">顯示 YouTube 預設錯誤畫面，不加額外 UI 引導；下方清單依 playlist_id 有效性決定</div>
     <div class="compare-grid">
       <div>
@@ -2132,7 +2148,7 @@
       <div class="ui-flow-row">
         <span class="uif-trigger">麵包屑 第3層（Playlist名稱）</span>
         <span class="uif-arrow">→</span>
-        <span class="uif-dest internal">Playlist 列表頁 /video/playlist/{id}</span>
+        <span class="uif-dest internal">Playlist 列表頁 /video?playlist={playlist_id}</span>
         <span class="uif-note">依 Primary Playlist，不隨來源入口變動</span>
       </div>
       <div class="ui-flow-row">
@@ -2348,7 +2364,7 @@ Level 2: Default image 帶 Play Button
 </section>
 
 <footer style="text-align:center;padding:40px 24px;color:var(--text-dim);font-size:14px;border-top:1px solid var(--border)">
-  TVBS新聞網改版 · Milestone 3 · 規格說明會素材 · V5 (URL-Driven Playlist)
+  TVBS新聞網改版 · Milestone 3 · 規格說明會素材 · V6 (Route & Scenario Update)
 </footer>
 
 <script>
