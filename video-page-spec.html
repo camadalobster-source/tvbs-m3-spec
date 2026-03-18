@@ -747,7 +747,7 @@
   <h1>TVBS 新聞網改版<br>開發規格說明</h1>
   <p class="hero-sub">首頁 · 影音總覽頁 · 播放清單頁 · 單則影音播放頁</p>
   <div class="hero-meta">
-    <span><b>版本</b> V6 (Route & Scenario Update)</span>
+    <span><b>版本</b> V7 (Playlist Route Update)</span>
     <span><b>範圍</b> 首頁 + 影音系統</span>
     <span><b>狀態</b> M3 開發中</span>
   </div>
@@ -765,7 +765,7 @@
       <div class="card-title">頁面角色定義</div>
       <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;">
         <div><span class="badge badge-amber">首頁</span> <span style="color:var(--text-mid);margin-left:6px">Teaser — 誘餌，導流入口</span></div>
-        <div><span class="badge badge-blue">影音總覽頁 /video</span> <span style="color:var(--text-mid);margin-left:6px">Collection — 策展分類</span></div>
+        <div><span class="badge badge-blue">影音總覽頁 /playlists</span> <span style="color:var(--text-mid);margin-left:6px">Collection — 策展分類</span></div>
         <div><span class="badge badge-purple">Playlist列表頁 /playlist/{id}</span> <span style="color:var(--text-mid);margin-left:6px">Navigation Node — 選片</span></div>
         <div><span class="badge badge-red">播放頁 /video/{id}</span> <span style="color:var(--text-mid);margin-left:6px">Consumption — 留存終點</span></div>
       </div>
@@ -774,8 +774,8 @@
       <div class="card-title">路由結構</div>
       <div class="code" style="margin-top:0">
         <span class="key">/</span>                <span class="cmt">← 首頁</span><br>
-        <span class="key">/video</span>      <span class="cmt">← 影音總覽 (Hub)</span><br>
-        <span class="key">/video?playlist=<span class="val">{playlist_id}</span></span>  <span class="cmt">← Playlist列表</span><br>
+        <span class="key">/playlists</span>      <span class="cmt">← 影音總覽 (Hub)</span><br>
+        <span class="key">/playlists/<span class="val">{playlist_id}</span></span>  <span class="cmt">← Playlist列表</span><br>
         <span class="key">/video/<span class="val">{video_id}</span></span><span class="key">?playlist=<span class="val">{playlist_id}</span></span> <span class="cmt">← 單則播放頁（playlist 為 optional）</span>
       </div>
     </div>
@@ -1182,7 +1182,7 @@
       <div class="ui-flow-row">
         <span class="uif-trigger">新聞看板 任一 Slot 點擊</span>
         <span class="uif-arrow">→</span>
-        <span class="uif-dest internal">影音總覽頁 /video</span>
+        <span class="uif-dest internal">影音總覽頁 /playlists</span>
       </div>
       <div class="ui-flow-row">
         <span class="uif-trigger">影音區塊 點擊影片縮圖</span>
@@ -1192,7 +1192,7 @@
       <div class="ui-flow-row">
         <span class="uif-trigger">影音區塊「看更多影音」</span>
         <span class="uif-arrow">→</span>
-        <span class="uif-dest internal">影音總覽頁 /video</span>
+        <span class="uif-dest internal">影音總覽頁 /playlists</span>
       </div>
     </div>
   </div>
@@ -1384,7 +1384,7 @@
         </div>
         <div style="flex:1;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);border-radius:8px;padding:12px;text-align:center">
           <div style="font-weight:600;color:var(--blue);font-size:14px">Playlist 列表頁</div>
-          <div style="font-size:12px;color:var(--text-dim);margin-top:2px">/video?playlist={playlist_id}</div>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:2px">/playlists/{playlist_id}</div>
         </div>
         <div style="display:flex;flex-direction:column;align-items:center;padding:0 8px;flex-shrink:0">
           <div style="font-size:12px;color:var(--text-dim);margin-bottom:2px">點擊影片卡</div>
@@ -1505,11 +1505,11 @@
 <section id="video-hub">
   <div class="sec-header">
     <span class="sec-num">04</span>
-    <h2>影音總覽頁（Hub）<span style="font-size:14px;font-weight:400;color:var(--text-dim);margin-left:8px">/video</span></h2>
+    <h2>影音總覽頁（Hub）<span style="font-size:14px;font-weight:400;color:var(--text-dim);margin-left:8px">/playlists</span></h2>
   </div>
 
   <div class="sec-meta">
-    <div class="sec-meta-item"><span class="meta-key">路由</span><span class="meta-val"><code>/video</code></span></div>
+    <div class="sec-meta-item"><span class="meta-key">路由</span><span class="meta-val"><code>/playlists</code></span></div>
     <div class="sec-meta-item"><span class="meta-key">角色</span><span class="meta-val">策展與分流，不做播放邏輯</span></div>
   </div>
 
@@ -1555,7 +1555,7 @@
           </div>
         </div>
         <div class="wf-row" style="margin-top:4px">
-          <div class="wf-block full amber" style="font-size:14px;padding:6px">[ 更多影音新聞 › ] → /video?playlist={playlist_id}</div>
+          <div class="wf-block full amber" style="font-size:14px;padding:6px">[ 更多影音新聞 › ] → /playlists/{playlist_id}</div>
         </div>
         <div class="wf-row mt16">
           <div class="wf-block full" style="font-size:14px;border-style:dashed">Playlist B（同上結構）｜ [ 更多影音新聞 › ]</div>
@@ -1646,7 +1646,7 @@
       <div class="ui-flow-row">
         <span class="uif-trigger">「更多影音新聞」按鈕</span>
         <span class="uif-arrow">→</span>
-        <span class="uif-dest internal">Playlist 列表頁 /video?playlist={playlist_id}</span>
+        <span class="uif-dest internal">Playlist 列表頁 /playlists/{playlist_id}</span>
       </div>
       <div class="ui-flow-row">
         <span class="uif-trigger">Hero Live</span>
@@ -1666,7 +1666,7 @@
   </div>
 
   <div class="sec-meta">
-    <div class="sec-meta-item"><span class="meta-key">路由</span><span class="meta-val"><code>/video?playlist={playlist_id}</code></span></div>
+    <div class="sec-meta-item"><span class="meta-key">路由</span><span class="meta-val"><code>/playlists/{playlist_id}</code></span></div>
     <div class="sec-meta-item"><span class="meta-key">角色</span><span class="meta-val">導覽節點，選片入口</span></div>
   </div>
 
@@ -2143,12 +2143,12 @@
       <div class="ui-flow-row">
         <span class="uif-trigger">麵包屑 第2層「影音總覽」</span>
         <span class="uif-arrow">→</span>
-        <span class="uif-dest internal">Hub /video</span>
+        <span class="uif-dest internal">Hub /playlists</span>
       </div>
       <div class="ui-flow-row">
         <span class="uif-trigger">麵包屑 第3層（Playlist名稱）</span>
         <span class="uif-arrow">→</span>
-        <span class="uif-dest internal">Playlist 列表頁 /video?playlist={playlist_id}</span>
+        <span class="uif-dest internal">Playlist 列表頁 /playlists/{playlist_id}</span>
         <span class="uif-note">依 Primary Playlist，不隨來源入口變動</span>
       </div>
       <div class="ui-flow-row">
@@ -2364,7 +2364,7 @@ Level 2: Default image 帶 Play Button
 </section>
 
 <footer style="text-align:center;padding:40px 24px;color:var(--text-dim);font-size:14px;border-top:1px solid var(--border)">
-  TVBS新聞網改版 · Milestone 3 · 規格說明會素材 · V6 (Route & Scenario Update)
+  TVBS新聞網改版 · Milestone 3 · 規格說明會素材 · V7 (Playlist Route Update)
 </footer>
 
 <script>

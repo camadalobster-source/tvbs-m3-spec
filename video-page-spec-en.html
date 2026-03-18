@@ -627,7 +627,7 @@
   <h1>TVBS News Website Redesign<br>Development Specification</h1>
   <p class="hero-sub">Homepage · Video Hub · Playlist Page · Single Video Player Page</p>
   <div class="hero-meta">
-    <span><b>Version</b> V6 (Route & Scenario Update)</span>
+    <span><b>Version</b> V7 (Playlist Route Update)</span>
     <span><b>Scope</b> Homepage + Video System</span>
     <span><b>Status</b> M3 In Development</span>
   </div>
@@ -645,7 +645,7 @@
       <div class="card-title">Page Role Definitions</div>
       <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;">
         <div><span class="badge badge-amber">Homepage</span> <span style="color:var(--text-mid);margin-left:6px">Teaser — Entry point, traffic driver</span></div>
-        <div><span class="badge badge-blue">Video Hub /video</span> <span style="color:var(--text-mid);margin-left:6px">Collection — Editorial Curation</span></div>
+        <div><span class="badge badge-blue">Video Hub /playlists</span> <span style="color:var(--text-mid);margin-left:6px">Collection — Editorial Curation</span></div>
         <div><span class="badge badge-purple">Playlist Page /playlist/{id}</span> <span style="color:var(--text-mid);margin-left:6px">Navigation Node — Video selection</span></div>
         <div><span class="badge badge-red">Player Page /video/{id}</span> <span style="color:var(--text-mid);margin-left:6px">Consumption — Retention endpoint</span></div>
       </div>
@@ -654,8 +654,8 @@
       <div class="card-title">Route Structure</div>
       <div class="code" style="margin-top:0">
         <span class="key">/</span>                <span class="cmt">← Homepage</span><br>
-        <span class="key">/video</span>      <span class="cmt">← Video Hub</span><br>
-        <span class="key">/video?playlist=<span class="val">{playlist_id}</span></span>  <span class="cmt">← Playlist Page</span><br>
+        <span class="key">/playlists</span>      <span class="cmt">← Video Hub</span><br>
+        <span class="key">/playlists/<span class="val">{playlist_id}</span></span>  <span class="cmt">← Playlist Page</span><br>
         <span class="key">/video/<span class="val">{video_id}</span></span><span class="key">?playlist=<span class="val">{playlist_id}</span></span> <span class="cmt">← Single Video Player (playlist optional)</span>
       </div>
     </div>
@@ -1067,7 +1067,7 @@
       <div class="ui-flow-row">
         <span class="uif-trigger">News Boards — any Slot tap</span>
         <span class="uif-arrow">→</span>
-        <span class="uif-dest internal">Video Hub /video</span>
+        <span class="uif-dest internal">Video Hub /playlists</span>
       </div>
       <div class="ui-flow-row">
         <span class="uif-trigger">Video Section — tap video thumbnail</span>
@@ -1077,7 +1077,7 @@
       <div class="ui-flow-row">
         <span class="uif-trigger">Video Section "More Video News"</span>
         <span class="uif-arrow">→</span>
-        <span class="uif-dest internal">Video Hub /video</span>
+        <span class="uif-dest internal">Video Hub /playlists</span>
       </div>
 
     </div>
@@ -1268,7 +1268,7 @@ Article #8</div>
         </div>
         <div style="flex:1;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.3);border-radius:8px;padding:12px;text-align:center">
           <div style="font-weight:600;color:var(--blue);font-size:14px">Playlist Page</div>
-          <div style="font-size:12px;color:var(--text-dim);margin-top:2px">/video?playlist={playlist_id}</div>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:2px">/playlists/{playlist_id}</div>
         </div>
         <div style="display:flex;flex-direction:column;align-items:center;padding:0 8px;flex-shrink:0">
           <div style="font-size:12px;color:var(--text-dim);margin-bottom:2px">Tap video card</div>
@@ -1386,11 +1386,11 @@ Article #8</div>
 <section id="video-hub">
   <div class="sec-header">
     <span class="sec-num">04</span>
-    <h2>Video Hub <span style="font-size:14px;font-weight:400;color:var(--text-dim);margin-left:8px">/video</span></h2>
+    <h2>Video Hub <span style="font-size:14px;font-weight:400;color:var(--text-dim);margin-left:8px">/playlists</span></h2>
   </div>
 
   <div class="sec-meta">
-    <div class="sec-meta-item"><span class="meta-key">Route</span><span class="meta-val"><code>/video</code></span></div>
+    <div class="sec-meta-item"><span class="meta-key">Route</span><span class="meta-val"><code>/playlists</code></span></div>
     <div class="sec-meta-item"><span class="meta-key">Role</span><span class="meta-val">Editorial Curation &amp; traffic distribution — no playback logic</span></div>
   </div>
 
@@ -1436,7 +1436,7 @@ Article #8</div>
           </div>
         </div>
         <div class="wf-row" style="margin-top:4px">
-          <div class="wf-block full amber" style="font-size:14px;padding:6px">[ More Video News › ] → /video?playlist={playlist_id}</div>
+          <div class="wf-block full amber" style="font-size:14px;padding:6px">[ More Video News › ] → /playlists/{playlist_id}</div>
         </div>
         <div class="wf-row mt16">
           <div class="wf-block full" style="font-size:14px;border-style:dashed">Playlist B (same structure) ｜ [ More Video News › ]</div>
@@ -1528,7 +1528,7 @@ Article #8</div>
       <div class="ui-flow-row">
         <span class="uif-trigger">"More Video News" button</span>
         <span class="uif-arrow">→</span>
-        <span class="uif-dest internal">Playlist Page /video?playlist={playlist_id}</span>
+        <span class="uif-dest internal">Playlist Page /playlists/{playlist_id}</span>
       </div>
 
       <div class="ui-flow-row">
@@ -1549,7 +1549,7 @@ Article #8</div>
   </div>
 
   <div class="sec-meta">
-    <div class="sec-meta-item"><span class="meta-key">Route</span><span class="meta-val"><code>/video?playlist={playlist_id}</code></span></div>
+    <div class="sec-meta-item"><span class="meta-key">Route</span><span class="meta-val"><code>/playlists/{playlist_id}</code></span></div>
     <div class="sec-meta-item"><span class="meta-key">Role</span><span class="meta-val">Navigation node, video selection entry</span></div>
   </div>
 
@@ -2019,12 +2019,12 @@ Article #8</div>
       <div class="ui-flow-row">
         <span class="uif-trigger">Breadcrumb Level 2 "Video Hub"</span>
         <span class="uif-arrow">→</span>
-        <span class="uif-dest internal">Hub /video</span>
+        <span class="uif-dest internal">Hub /playlists</span>
       </div>
       <div class="ui-flow-row">
         <span class="uif-trigger">Breadcrumb Level 3 (Playlist name)</span>
         <span class="uif-arrow">→</span>
-        <span class="uif-dest internal">Playlist Page /video?playlist={playlist_id}</span>
+        <span class="uif-dest internal">Playlist Page /playlists/{playlist_id}</span>
         <span class="uif-note">Based on Primary Playlist — does not change based on entry point</span>
       </div>
       <div class="ui-flow-row">
@@ -2248,7 +2248,7 @@ Level 2: Default image with Play Button
 </section>
 
 <footer style="text-align:center;padding:40px 24px;color:var(--text-dim);font-size:14px;border-top:1px solid var(--border)">
-  TVBS News Website Redesign · Milestone 3 · Dev Spec Review · V6 (Route & Scenario Update)
+  TVBS News Website Redesign · Milestone 3 · Dev Spec Review · V7 (Playlist Route Update)
 </footer>
 
 <script>
